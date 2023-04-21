@@ -8,7 +8,7 @@
 GameScene::GameScene() {}
 
 GameScene::~GameScene() { 
-	/*delete sprite_;*/
+	delete sprite_;
 	delete model_;
 	delete debugCamera_;
 }
