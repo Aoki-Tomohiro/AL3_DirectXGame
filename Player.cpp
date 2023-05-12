@@ -62,10 +62,10 @@ void Player::Update() {
 	worldTransform_.translation_.y = min(worldTransform_.translation_.y, +kMoveLimitY);
 
 	//座標移動(ベクトルの加算)
-	MathFunction::Move(worldTransform_.translation_, move);
+	Move(worldTransform_.translation_, move);
 
 	//行列更新
-	worldTransform_.matWorld_ = MathFunction::MakeAffineMatrix(
+	worldTransform_.matWorld_ = MakeAffineMatrix(
 	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
 	//行列を定数バッファに転送
@@ -80,7 +80,7 @@ void Player::Update() {
 }
 
 void Player::Attack() { 
-	if (input_->PushKey(DIK_SPACE)){
+	if (input_->TriggerKey(DIK_SPACE)){
 		//弾を生成し、初期化
 		PlayerBullet* newBullet = new PlayerBullet();
 		newBullet->Initialize(model_, worldTransform_.translation_);

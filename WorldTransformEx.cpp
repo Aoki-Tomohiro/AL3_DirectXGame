@@ -2,6 +2,6 @@
 #include "MathFunction.h"
 
 void WorldTransform::UpdateMatrix() {
-	matWorld_ = MathFunction::MakeAffineMatrix(scale_, rotation_, translation_);
+	matWorld_ = MakeAffineMatrix(scale_, rotation_, translation_);
 	TransferMatrix();
 }
