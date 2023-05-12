@@ -71,11 +71,9 @@ void Player::Update() {
 	//行列を定数バッファに転送
 	worldTransform_.TransferMatrix(); 
 
-	//キャラクターの座標を画面表示する処理
+	// キャラクターの座標を画面表示する処理
 	ImGui::Begin("PlayerPosition");
-	ImGui::Text(
-	    "%f,%f,%f", worldTransform_.translation_.x, worldTransform_.translation_.y,
-	    worldTransform_.translation_.z);
+	ImGui::SliderFloat3("Player", *inputFloat3, -34.0f, 34.0f);
 	ImGui::End();
 }
 
