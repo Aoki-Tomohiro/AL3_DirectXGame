@@ -2,16 +2,18 @@
 #include <WorldTransform.h>
 #include <Input.h>
 #include "PlayerBullet.h"
+#include <list>
 
 #pragma once
 class Player {
 public:
+	~Player();
 	void Initialize(Model* model, uint32_t textureHandle);
 	void Update();
 	void Draw(ViewProjection viewProjection);
-	void Attack();
 
 private:
+	void Attack();
 	//ワールド変換データ
 	WorldTransform worldTransform_;
 	//モデル
@@ -21,5 +23,5 @@ private:
 	//キーボード入力
 	Input* input_ = nullptr;
 	//弾
-	PlayerBullet* bullet_ = nullptr;
+	std::list<PlayerBullet*> bullets_;
 };
