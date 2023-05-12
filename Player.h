@@ -18,4 +18,8 @@ private:
 	uint32_t textureHandle_ = 0u;
 	//キーボード入力
 	Input* input_ = nullptr;
+	//ImGuiで値を入力する変数
+	float* inputFloat3[3] = {
+	    &worldTransform_.translation_.x, &worldTransform_.translation_.y,
+	    &worldTransform_.translation_.z};
 };
