@@ -14,4 +14,5 @@ public:
 	static Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
 	static Matrix4x4 MakeOrthographicMatrix(float left, float top, float right, float bottom, float nearClip, float farClip);
 	static Matrix4x4 MakeViewportMatrix(float left, float top, float width, float height, float minDepth, float maxDepth);
+	static Vector3 TransformNormal(const Vector3& vector, const Matrix4x4& matrix);
 };
