@@ -1,12 +1,12 @@
 #include "MathFunction.h"
 
-void MathFunction::Move(Vector3& transform, Vector3& move) {
+void Move(Vector3& transform, Vector3& move) {
 	transform.x += move.x;
 	transform.y += move.y;
 	transform.z += move.z;
 }
 
-Matrix4x4 MathFunction::MakeRotateXMatrix(float radian) {
+Matrix4x4 MakeRotateXMatrix(float radian) {
 	Matrix4x4 result;
 	result.m[0][0] = 1;
 	result.m[0][1] = 0;
@@ -31,7 +31,7 @@ Matrix4x4 MathFunction::MakeRotateXMatrix(float radian) {
 	return result;
 }
 
-Matrix4x4 MathFunction::MakeRotateYMatrix(float radian) {
+Matrix4x4 MakeRotateYMatrix(float radian) {
 	Matrix4x4 result;
 	result.m[0][0] = std::cos(radian);
 	result.m[0][1] = 0;
@@ -56,7 +56,7 @@ Matrix4x4 MathFunction::MakeRotateYMatrix(float radian) {
 	return result;
 }
 
-Matrix4x4 MathFunction::MakeRotateZMatrix(float radian) {
+Matrix4x4 MakeRotateZMatrix(float radian) {
 	Matrix4x4 result;
 	result.m[0][0] = std::cos(radian);
 	result.m[0][1] = std::sin(radian);
@@ -81,7 +81,7 @@ Matrix4x4 MathFunction::MakeRotateZMatrix(float radian) {
 	return result;
 }
 
-Matrix4x4 MathFunction::Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
+Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
 	Matrix4x4 result;
 	result.m[0][0] = m1.m[0][0] * m2.m[0][0] + m1.m[0][1] * m2.m[1][0] + m1.m[0][2] * m2.m[2][0] +
 	                 m1.m[0][3] * m2.m[3][0];
@@ -122,7 +122,7 @@ Matrix4x4 MathFunction::Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
 	return result;
 }
 
-Matrix4x4 MathFunction::MakeAffineMatrix(
+Matrix4x4 MakeAffineMatrix(
     const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
 	Matrix4x4 rotateXMatrix = MakeRotateXMatrix(rotate.x);
 	Matrix4x4 rotateYMatrix = MakeRotateYMatrix(rotate.y);
@@ -152,7 +152,7 @@ Matrix4x4 MathFunction::MakeAffineMatrix(
 	return result;
 }
 
-Matrix4x4 MathFunction::MakeOrthographicMatrix(
+Matrix4x4 MakeOrthographicMatrix(
     float left, float top, float right, float bottom, float nearClip, float farClip) {
 	assert(left != right);
 	assert(top != bottom);
@@ -180,7 +180,7 @@ Matrix4x4 MathFunction::MakeOrthographicMatrix(
 	return result;
 }
 
-Matrix4x4 MathFunction::MakeViewportMatrix(
+Matrix4x4 MakeViewportMatrix(
     float left, float top, float width, float height, float minDepth, float maxDepth) {
 	Matrix4x4 result;
 	result.m[0][0] = width / 2;
@@ -206,7 +206,7 @@ Matrix4x4 MathFunction::MakeViewportMatrix(
 	return result;
 }
 
-Vector3 MathFunction::TransformNormal(const Vector3& vector, const Matrix4x4& matrix) {
+Vector3 TransformNormal(const Vector3& vector, const Matrix4x4& matrix) {
 	Vector3 result;
 	result.x = vector.x * matrix.m[0][0] + vector.y * matrix.m[1][0] + vector.z * matrix.m[2][0];
 	result.y = vector.x * matrix.m[0][1] + vector.y * matrix.m[1][1] + vector.z * matrix.m[2][1];

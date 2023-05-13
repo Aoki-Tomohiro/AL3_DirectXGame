@@ -78,10 +78,10 @@ void Player::Update() {
 	worldTransform_.translation_.y = min(worldTransform_.translation_.y, +kMoveLimitY);
 
 	//座標移動(ベクトルの加算)
-	MathFunction::Move(worldTransform_.translation_, move);
+	Move(worldTransform_.translation_, move);
 
 	//行列更新
-	worldTransform_.matWorld_ = MathFunction::MakeAffineMatrix(
+	worldTransform_.matWorld_ = MakeAffineMatrix(
 	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
 	//行列を定数バッファに転送
@@ -89,9 +89,7 @@ void Player::Update() {
 
 	//キャラクターの座標を画面表示する処理
 	ImGui::Begin("PlayerPosition");
-	ImGui::Text(
-	    "%f,%f,%f", worldTransform_.translation_.x, worldTransform_.translation_.y,
-	    worldTransform_.translation_.z);
+	ImGui::SliderFloat3("Player", *inputFloat3, -34, 34);
 	ImGui::End();
 }
 
@@ -102,7 +100,7 @@ void Player::Attack() {
 		Vector3 velocity(0, 0, kBulletSpeed);
 
 		//速度ベクトルを自機の向きに合わせて回転させる
-		velocity = MathFunction::TransformNormal(velocity, worldTransform_.matWorld_);
+		velocity = TransformNormal(velocity, worldTransform_.matWorld_);
 
 		//弾を生成し、初期化
 		PlayerBullet* newBullet = new PlayerBullet();

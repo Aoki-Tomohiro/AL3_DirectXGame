@@ -17,7 +17,7 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vecto
 
 void PlayerBullet::Update()
 { 
-	MathFunction::Move(worldTransform_.translation_, velocity_);
+	Move(worldTransform_.translation_, velocity_);
 	worldTransform_.UpdateMatrix();
 
 	if (--deathTimer_ <= 0) {
