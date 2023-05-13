@@ -80,12 +80,8 @@ void Player::Update() {
 	//座標移動(ベクトルの加算)
 	Move(worldTransform_.translation_, move);
 
-	//行列更新
-	worldTransform_.matWorld_ = MakeAffineMatrix(
-	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
-
-	//行列を定数バッファに転送
-	worldTransform_.TransferMatrix(); 
+	//行列の更新
+	worldTransform_.UpdateMatrix();
 
 	//キャラクターの座標を画面表示する処理
 	ImGui::Begin("PlayerPosition");
