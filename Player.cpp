@@ -80,6 +80,8 @@ void Player::Update() {
 	//キャラクターの座標を画面表示する処理
 	ImGui::Begin("PlayerPosition");
 	ImGui::SliderFloat3("Player", *inputFloat3, -34.0f, 34.0f);
+	ImGui::Text("1     DebugCamera");
+	ImGui::Text("Space Shot");
 	ImGui::End();
 }
 
