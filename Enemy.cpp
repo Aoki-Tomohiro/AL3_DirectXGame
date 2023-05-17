@@ -21,32 +21,36 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle) {
 }
 
 void Enemy::Approach() {
-	// 移動ベクトル
-	Vector3 move = {0, 0, 0};
-	//// キャラクターの移動速さ
-	//const float kEnemySpeed = 0.2f;
+	if (phase_ == Phase::Approach) {
+		// 移動ベクトル
+		Vector3 move = {0, 0, 0};
+		//// キャラクターの移動速さ
+		// const float kEnemySpeed = 0.2f;
 
-	// 移動(ベクトルを加算)
-	move.z -= enemySpeed_;
-	// 座標移動(ベクトルの加算)
-	Move(worldTransform_.translation_, move);
-	// 既定の位置に到達したら離脱
-	if (worldTransform_.translation_.z < 0.0f) {
-		phase_ = Phase::Leave;
+		// 移動(ベクトルを加算)
+		move.z -= enemySpeed_;
+		// 座標移動(ベクトルの加算)
+		Move(worldTransform_.translation_, move);
+		// 既定の位置に到達したら離脱
+		if (worldTransform_.translation_.z < 0.0f) {
+			phase_ = Phase::Leave;
+		}
 	}
 }
 void Enemy::Leave(){
-	// 移動ベクトル
-	Vector3 move = {0, 0, 0};
-	//// キャラクターの移動速さ
-	//const float kEnemySpeed = 0.1f;
+	if (phase_ == Phase::Leave) {
+		// 移動ベクトル
+		Vector3 move = {0, 0, 0};
+		//// キャラクターの移動速さ
+		// const float kEnemySpeed = 0.1f;
 
-	// 移動(ベクトルを加算)
-	move.x -= enemySpeed_;
-	move.y += enemySpeed_;
-	move.z -= enemySpeed_;
-	// 移動(ベクトルを加算)
-	Move(worldTransform_.translation_, move);
+		// 移動(ベクトルを加算)
+		move.x -= enemySpeed_;
+		move.y += enemySpeed_;
+		move.z -= enemySpeed_;
+		// 移動(ベクトルを加算)
+		Move(worldTransform_.translation_, move);
+	}
 }
 
 void (Enemy::*Enemy::spFuncTable[])() = {
