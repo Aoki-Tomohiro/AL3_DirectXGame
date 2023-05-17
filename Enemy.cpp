@@ -16,7 +16,8 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle) {
 		fscanf_s(fp, "%f", &enemySpeed_);
 		fclose(fp);
 	}
-	
+	spFuncTable[0] = &Enemy::Approach;
+	spFuncTable[1] = &Enemy::Leave;
 }
 
 void Enemy::Approach() {
@@ -48,9 +49,14 @@ void Enemy::Leave(){
 	Move(worldTransform_.translation_, move);
 }
 
+void (Enemy::*Enemy::spFuncTable[])() = {
+	&Enemy::Approach,
+	&Enemy::Leave
+};
+
 void Enemy::Update() {
 
-	switch (phase_) {
+	/*switch (phase_) {
 	case Phase::Approach:
 	default:
 		Enemy::Approach();
@@ -58,7 +64,9 @@ void Enemy::Update() {
 	case Phase::Leave:
 		Enemy::Leave();
 		break;
-	}
+	}*/
+	(this->*spFuncTable[0])();
+	(this->*spFuncTable[1])();
 
 	//行列の更新
 	worldTransform_.UpdateMatrix();

@@ -31,4 +31,6 @@ private:
 	//txtファイル
 	FILE* fp;
 	errno_t err_;
+	//メンバ関数ポインタのテーブル
+	static void(Enemy::*spFuncTable[])();
 };
