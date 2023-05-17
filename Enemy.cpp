@@ -60,15 +60,7 @@ void (Enemy::*Enemy::spFuncTable[])() = {
 
 void Enemy::Update() {
 
-	/*switch (phase_) {
-	case Phase::Approach:
-	default:
-		Enemy::Approach();
-		break;
-	case Phase::Leave:
-		Enemy::Leave();
-		break;
-	}*/
+	//メンバ関数ポインタの呼び出し
 	(this->*spFuncTable[0])();
 	(this->*spFuncTable[1])();
 
