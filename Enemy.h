@@ -9,6 +9,23 @@ enum class Phase
 	Leave,//離脱する
 };
 
+class Enemy;
+
+class BaseEnemyState {
+public:
+	virtual void Update(Enemy* pEnemy) = 0;
+};
+
+class EnemyStateApproach : public BaseEnemyState {
+public:
+	void Update(Enemy* pEnemy);
+};
+
+class EnemyStateLeave : public BaseEnemyState {
+public:
+	void Update(Enemy* pEnemy);
+};
+
 class Enemy {
 public:
 	void Initialize(Model* model, uint32_t textureHandle);
@@ -16,6 +33,10 @@ public:
 	void Leave();
 	void Update();
 	void Draw(ViewProjection viewProjection);
+	void ChangeState(BaseEnemyState* newState);
+	float GetEnemySpeed() { return enemySpeed_; };
+	WorldTransform GetWorldTransform() { return worldTransform_; };
+	void EnemyMove(Vector3 move);
 
 private:
 	// ワールド変換データ
@@ -33,4 +54,6 @@ private:
 	errno_t err_;
 	//メンバ関数ポインタのテーブル
 	static void(Enemy::*spFuncTable[])();
+	//statePattern
+	BaseEnemyState* state_;
 };
