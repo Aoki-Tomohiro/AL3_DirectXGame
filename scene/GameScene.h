@@ -8,9 +8,9 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-#include "Player.h"
+#include "player/Player.h"
 #include "DebugCamera.h"
-#include "Enemy.h"
+#include "enemy/Enemy.h"
 
 /// <summary>
 /// ゲームシーン
