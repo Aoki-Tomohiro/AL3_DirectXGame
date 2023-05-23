@@ -9,7 +9,7 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle) {
 	textureHandle_ = textureHandle;
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = {0.0f, 2.0f, 50.0f};
-	char fname[] = "enemySpeed.txt";
+	char fname[] = "enemy/enemySpeed.txt";
 	err_ = fopen_s(&fp, fname, "r");
 	if (fp != 0  && err_ == 0)
 	{
@@ -46,7 +46,7 @@ void Enemy::Update() {
 
 	//メンバ関数ポインタの呼び出し
 	(this->*spFuncTable[0])();
-	(this->*spFuncTable[1])();
+	/*(this->*spFuncTable[1])();*/
 
 	//行列の更新
 	worldTransform_.UpdateMatrix();
