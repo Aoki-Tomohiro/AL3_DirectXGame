@@ -44,9 +44,10 @@ void (Enemy::*Enemy::spFuncTable[])() = {
 
 void Enemy::Update() {
 
-	//メンバ関数ポインタの呼び出し
-	(this->*spFuncTable[0])();
-	/*(this->*spFuncTable[1])();*/
+	state_->Update(this);
+	////メンバ関数ポインタの呼び出し
+	//(this->*spFuncTable[0])();
+	//(this->*spFuncTable[1])();
 
 	//行列の更新
 	worldTransform_.UpdateMatrix();
