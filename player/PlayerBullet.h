@@ -18,7 +18,7 @@ private:
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
 	//速度
-	Vector3 velocity_;
+	Vector3 velocity_ = {0, 0, 0};
 	//デスタイマー
 	int32_t deathTimer_ = kLifeTime;
 	//デスフラグ

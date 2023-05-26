@@ -1,6 +1,7 @@
 #pragma once
 #include "WorldTransform.h"
 #include "Model.h"
+#include "EnemyBullet.h"
 #include <stdio.h>
 
 enum class Phase
@@ -13,30 +14,36 @@ class Enemy;
 
 class BaseEnemyState {
 public:
+	virtual void Initialize(Enemy* pEnemy) = 0;
 	virtual void Update(Enemy* pEnemy) = 0;
 };
 
 class EnemyStateApproach : public BaseEnemyState {
 public:
+	void Initialize(Enemy* pEnemy);
 	void Update(Enemy* pEnemy);
 };
 
 class EnemyStateLeave : public BaseEnemyState {
 public:
+	void Initialize(Enemy* pEnemy);
 	void Update(Enemy* pEnemy);
 };
 
 class Enemy {
 public:
+	static const int kFireInterval = 60;
 	void Initialize(Model* model, uint32_t textureHandle);
-	void Approach();
-	void Leave();
 	void Update();
+	void Fire();
 	void Draw(ViewProjection viewProjection);
 	void ChangeState(BaseEnemyState* newState);
 	float GetEnemySpeed() { return enemySpeed_; };
 	WorldTransform GetWorldTransform() { return worldTransform_; };
 	void EnemyMove(Vector3 move);
+	std::list<std::unique_ptr<EnemyBullet>> &GetEnemyBullet() {	return bullets_;}
+	int32_t GetFireTimer() { return fireTimer_; };
+	void SetFireTimer(int32_t fireTimer) { this->fireTimer_ = fireTimer; };
 
 private:
 	// ワールド変換データ
@@ -52,8 +59,10 @@ private:
 	//txtファイル
 	FILE* fp;
 	errno_t err_;
-	//メンバ関数ポインタのテーブル
-	static void(Enemy::*spFuncTable[])();
 	//statePattern
 	BaseEnemyState* state_;
+	//弾
+	std::list<std::unique_ptr<EnemyBullet>> bullets_;
+	//発射タイマー
+	int32_t fireTimer_ = kFireInterval;
 };

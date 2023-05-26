@@ -61,11 +61,11 @@
     <Filter Include="ヘッダー ファイル\Player">
       <UniqueIdentifier>{332a9495-b61e-4e31-a21e-ffa4d35aa035}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Enemy">
-      <UniqueIdentifier>{8235d9d1-37b9-4923-a294-51057c495163}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Enemy">
+    <Filter Include="ヘッダー ファイル\enemy">
       <UniqueIdentifier>{01ad1f77-c544-4c28-9f69-5288e8c1ef82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\enemy">
+      <UniqueIdentifier>{8235d9d1-37b9-4923-a294-51057c495163}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -97,7 +97,10 @@
       <Filter>ソース ファイル\3d</Filter>
     </ClCompile>
     <ClCompile Include="enemy\Enemy.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
+      <Filter>ソース ファイル\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy\EnemyBullet.cpp">
+      <Filter>ソース ファイル\enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -195,7 +198,10 @@
       <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
     <ClInclude Include="enemy\Enemy.h">
-      <Filter>ヘッダー ファイル\Enemy</Filter>
+      <Filter>ヘッダー ファイル\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy\EnemyBullet.h">
+      <Filter>ヘッダー ファイル\enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
