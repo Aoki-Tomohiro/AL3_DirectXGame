@@ -62,8 +62,8 @@ void Enemy::Fire() {
 	Vector3 playerPos = player_->GetWorldPosition();
 	//敵キャラのワールド座標を取得する
 	Vector3 enemyPos = worldTransform_.translation_;
-	Vector3 v2 = Subtract(playerPos,enemyPos);
-	Vector3 n = Normalize(v2);
+	Vector3 targetPos = Subtract(playerPos,enemyPos);
+	Vector3 n = Normalize(targetPos);
 	Vector3 velocity = {n.x * kBulletSpeed, n.y * kBulletSpeed, n.z * kBulletSpeed};
 
 	//弾の生成
