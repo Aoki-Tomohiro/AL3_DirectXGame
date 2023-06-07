@@ -3,6 +3,12 @@
 #include "ImGuiManager.h"
 #include "MathFunction.h"
 
+Enemy::~Enemy() {
+	for (TimedCall* timedCall : timedCalls_) {
+		delete timedCall;
+	}
+}
+
 void Enemy::Initialize(Model* model, uint32_t textureHandle) {
 	assert(model);
 	model_ = model;
@@ -17,6 +23,7 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle) {
 		fclose(fp);
 	}
 	state_ = new EnemyStateApproach();
+	state_->Initialize(this);
 }
 
 void Enemy::ChangeState(BaseEnemyState* newState) { 
@@ -28,6 +35,15 @@ void Enemy::EnemyMove(Vector3 move) {
 }
 
 void Enemy::Update() {
+
+	// 弾の削除
+	timedCalls_.remove_if([](TimedCall* timedCall) {
+		if (timedCall->IsFinished() == true) {
+			delete timedCall;
+			return true;
+		}
+		return false;
+	});
 
 	state_->Update(this);
 
@@ -47,6 +63,16 @@ void Enemy::Fire() {
 	bullets_.push_back(std::unique_ptr<EnemyBullet>(newBullet));
 }
 
+void Enemy::FireReset() {
+	Fire();
+	// メンバ関数と呼び出し元をbindしてstd::functionに代入
+	std::function<void(void)> callback = std::bind(&Enemy::FireReset, this);
+	//時限発動イベントを生成
+	TimedCall* timedCall = new TimedCall(callback, 60);
+	//時限発動イベントを時限発動イベントリストに追加
+	timedCalls_.push_back(timedCall);
+}
+
 void Enemy::Draw(ViewProjection viewProjection) {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 	// 弾更新
@@ -57,6 +83,7 @@ void Enemy::Draw(ViewProjection viewProjection) {
 
 void EnemyStateApproach::Initialize(Enemy* pEnemy) { 
 	pEnemy->SetFireTimer(pEnemy->kFireInterval);
+	pEnemy->FireReset();
 }
 
 void EnemyStateApproach::Update(Enemy* pEnemy) {
@@ -74,12 +101,17 @@ void EnemyStateApproach::Update(Enemy* pEnemy) {
 		pEnemy->ChangeState(new EnemyStateLeave());
 	}
 
+	//範囲forでリストの全要素について回す
+	for (TimedCall* timedCall : pEnemy->GetTimedCall()) {
+		timedCall->Update();
+	}
+
 	//弾の発射
-	pEnemy->SetFireTimer(pEnemy->GetFireTimer() - 1);
+	/*pEnemy->SetFireTimer(pEnemy->GetFireTimer() - 1);
 	if (pEnemy->GetFireTimer() < 0) {
 		pEnemy->Fire();
 		pEnemy->SetFireTimer(pEnemy->kFireInterval);
-	}
+	}*/
 
 	//弾更新
 	for (std::unique_ptr<EnemyBullet>& bullet : pEnemy->GetEnemyBullet()) {

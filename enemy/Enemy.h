@@ -2,6 +2,7 @@
 #include "WorldTransform.h"
 #include "Model.h"
 #include "EnemyBullet.h"
+#include "TimeCall.h"
 #include <stdio.h>
 
 enum class Phase
@@ -33,9 +34,11 @@ public:
 class Enemy {
 public:
 	static const int kFireInterval = 60;
+	~Enemy();
 	void Initialize(Model* model, uint32_t textureHandle);
 	void Update();
 	void Fire();
+	void FireReset();
 	void Draw(ViewProjection viewProjection);
 	void ChangeState(BaseEnemyState* newState);
 	float GetEnemySpeed() { return enemySpeed_; };
@@ -44,6 +47,7 @@ public:
 	std::list<std::unique_ptr<EnemyBullet>> &GetEnemyBullet() {	return bullets_;}
 	int32_t GetFireTimer() { return fireTimer_; };
 	void SetFireTimer(int32_t fireTimer) { this->fireTimer_ = fireTimer; };
+	std::list<TimedCall*> GetTimedCall() { return timedCalls_; };
 
 private:
 	// ワールド変換データ
@@ -65,4 +69,6 @@ private:
 	std::list<std::unique_ptr<EnemyBullet>> bullets_;
 	//発射タイマー
 	int32_t fireTimer_ = kFireInterval;
+	//時限発動のリスト
+	std::list<TimedCall*> timedCalls_;
 };
