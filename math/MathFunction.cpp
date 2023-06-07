@@ -6,6 +6,23 @@ void Move(Vector3& transform, Vector3& move) {
 	transform.z += move.z;
 }
 
+Vector3 Subtract(const Vector3& v1, Vector3& v2) {
+	Vector3 result;
+	result.x = v1.x - v2.x;
+	result.y = v1.y - v2.y;
+	result.z = v1.z - v2.z;
+	return result;
+}
+
+Vector3 Normalize(const Vector3& v) {
+	Vector3 result;
+	float length = sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
+	result.x = v.x / length;
+	result.y = v.y / length;
+	result.z = v.z / length;
+	return result;
+}
+
 Matrix4x4 MakeRotateXMatrix(float radian) {
 	Matrix4x4 result;
 	result.m[0][0] = 1;

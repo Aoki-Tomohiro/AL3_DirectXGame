@@ -2,6 +2,7 @@
 #include <cassert>
 #include "ImGuiManager.h"
 #include "MathFunction.h"
+#include "player/Player.h"
 
 Enemy::~Enemy() {
 	for (TimedCall* timedCall : timedCalls_) {
@@ -52,12 +53,22 @@ void Enemy::Update() {
 }
 
 void Enemy::Fire() {
-	//座標のコピー
-	Vector3 position = worldTransform_.translation_;
+	assert(player_);
+
+	//弾の速度
+	const float kBulletSpeed = 1.0f;
+
+	//自キャラのワールド座標を取得する
+	Vector3 playerPos = player_->GetWorldPosition();
+	//敵キャラのワールド座標を取得する
+	Vector3 enemyPos = worldTransform_.translation_;
+	Vector3 v2 = Subtract(playerPos,enemyPos);
+	Vector3 n = Normalize(v2);
+	Vector3 velocity = {n.x * kBulletSpeed, n.y * kBulletSpeed, n.z * kBulletSpeed};
 
 	//弾の生成
 	EnemyBullet* newBullet = new EnemyBullet();
-	newBullet->Initialize(model_, position);
+	newBullet->Initialize(model_, worldTransform_.translation_,velocity);
 
 	//弾を登録する
 	bullets_.push_back(std::unique_ptr<EnemyBullet>(newBullet));
@@ -141,3 +152,13 @@ void EnemyStateLeave::Update(Enemy* pEnemy) {
 		bullet->Update();
 	}
 }
+
+Vector3 Enemy::GetWorldPosition() {
+	// ワールド座標を入れる変数
+	Vector3 worldPos;
+	// ワールド行列の平行移動成分を取得(ワールド座標)
+	worldPos.x = worldTransform_.translation_.x;
+	worldPos.y = worldTransform_.translation_.y;
+	worldPos.z = worldTransform_.translation_.z;
+	return worldPos;
+};

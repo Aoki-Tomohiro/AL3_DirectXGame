@@ -5,6 +5,8 @@
 #include "TimeCall.h"
 #include <stdio.h>
 
+class Player;
+
 enum class Phase
 {
 	Approach,//接近する
@@ -48,6 +50,8 @@ public:
 	int32_t GetFireTimer() { return fireTimer_; };
 	void SetFireTimer(int32_t fireTimer) { this->fireTimer_ = fireTimer; };
 	std::list<TimedCall*> GetTimedCall() { return timedCalls_; };
+	void SetPlayer(Player* player) { player_ = player; };
+	Vector3 GetWorldPosition();
 
 private:
 	// ワールド変換データ
@@ -71,4 +75,7 @@ private:
 	int32_t fireTimer_ = kFireInterval;
 	//時限発動のリスト
 	std::list<TimedCall*> timedCalls_;
+
+	//自キャラ
+	Player* player_ = nullptr;
 };

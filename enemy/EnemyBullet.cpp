@@ -2,7 +2,7 @@
 #include "MathFunction.h"
 #include <cassert>
 
-void EnemyBullet::Initialize(Model* model, const Vector3& position) {
+void EnemyBullet::Initialize(Model* model, const Vector3& position,const Vector3& velocity) {
 	//NULLポインタチェック
 	assert(model);
 	model_ = model;
@@ -11,13 +11,12 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position) {
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = position;
+	//スピードの初期化
+	velocity_ = velocity;
 }
 
 void EnemyBullet::Update() {
-	Vector3 move = {0, 0, 0};
-	const float kBulletSpeed = 0.5f;
-	move.z -= kBulletSpeed;
-	Move(worldTransform_.translation_, move);
+	Move(worldTransform_.translation_, velocity_);
 	worldTransform_.UpdateMatrix();
 }
 

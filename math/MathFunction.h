@@ -4,6 +4,8 @@
 #include <cmath>
 #pragma once
 void Move(Vector3& transform, Vector3& move);
+Vector3 Subtract(const Vector3& v1, Vector3& v2);
+Vector3 Normalize(const Vector3& v);
 Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2);
 Matrix4x4 MakeRotateXMatrix(float radian);
 Matrix4x4 MakeRotateYMatrix(float radian);
