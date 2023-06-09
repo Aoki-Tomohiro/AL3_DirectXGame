@@ -11,8 +11,14 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position,const Vector3
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = position;
+	worldTransform_.scale_.x = 0.5f;
+	worldTransform_.scale_.y = 0.5f;
+	worldTransform_.scale_.z = 3.0f;
 	//スピードの初期化
 	velocity_ = velocity;
+	worldTransform_.rotation_.y = std::atan2(velocity_.x, velocity_.z);
+	float length = Length(Vector3{velocity.x, 0, velocity.z});
+	worldTransform_.rotation_.x = std::atan2(-velocity_.y, length);
 }
 
 void EnemyBullet::Update() {

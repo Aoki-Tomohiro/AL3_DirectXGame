@@ -14,6 +14,13 @@ Vector3 Subtract(const Vector3& v1, Vector3& v2) {
 	return result;
 }
 
+// 長さ
+float Length(const Vector3& v) {
+	float result;
+	result = sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
+	return result;
+}
+
 Vector3 Normalize(const Vector3& v) {
 	Vector3 result;
 	float length = sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
