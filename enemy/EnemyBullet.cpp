@@ -1,6 +1,8 @@
 #include "EnemyBullet.h"
 #include "MathFunction.h"
 #include <cassert>
+#include "player/Player.h"
+#include"ImGuiManager.h"
 
 void EnemyBullet::Initialize(Model* model, const Vector3& position,const Vector3& velocity) {
 	//NULLポインタチェック
@@ -22,6 +24,27 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position,const Vector3
 }
 
 void EnemyBullet::Update() {
+	SetPlayer(player_);
+
+	//敵弾から自キャラへのベクトルを計算
+	Vector3 toPlayer = Subtract(player_->GetWorldPosition(), worldTransform_.translation_);
+
+	if (t_ < 0.05) {
+		t_ += 1.0f / 120.0f;
+	}
+
+	//ベクトルを正規化する
+	Vector3 nPlayer = Normalize(toPlayer);
+	Vector3 nVelocity = Normalize(velocity_);
+	velocity_ = Slerp(nVelocity, nPlayer, t_);
+	velocity_.x *= 0.5f;
+	velocity_.y *= 0.5f;
+	velocity_.z *= 0.5f;
+
+	worldTransform_.rotation_.y = std::atan2(velocity_.x, velocity_.z);
+	float length = Length(Vector3{velocity_.x, 0, velocity_.z});
+	worldTransform_.rotation_.x = std::atan2(-velocity_.y, length);
+
 	Move(worldTransform_.translation_, velocity_);
 	worldTransform_.UpdateMatrix();
 }

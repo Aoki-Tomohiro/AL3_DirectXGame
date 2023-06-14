@@ -6,11 +6,18 @@ void Move(Vector3& transform, Vector3& move) {
 	transform.z += move.z;
 }
 
-Vector3 Subtract(const Vector3& v1, Vector3& v2) {
+Vector3 Subtract(const Vector3& v1, const Vector3& v2) {
 	Vector3 result;
 	result.x = v1.x - v2.x;
 	result.y = v1.y - v2.y;
 	result.z = v1.z - v2.z;
+	return result;
+}
+
+// 内積
+float Dot(const Vector3& v1, const Vector3& v2) {
+	float result;
+	result = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 	return result;
 }
 
@@ -236,4 +243,24 @@ Vector3 TransformNormal(const Vector3& vector, const Matrix4x4& matrix) {
 	result.y = vector.x * matrix.m[0][1] + vector.y * matrix.m[1][1] + vector.z * matrix.m[2][1];
 	result.z = vector.x * matrix.m[0][2] + vector.y * matrix.m[1][2] + vector.z * matrix.m[2][2];
 	return result;
+}
+
+Vector3 Leap(const Vector3& v1, const Vector3& v2, float t) {
+	Vector3 result;
+	result.x = v1.x + t * (v2.x - v1.x);
+	result.y = v1.y + t * (v2.y - v1.y);
+	result.z = v1.z + t * (v2.z - v1.z);
+	return result;
+}
+
+Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t) {
+	float theta = std::acos(Dot(v1, v2));
+	float sinTheta = std::sin(theta);
+	Vector3 result;
+	if (theta != 0.0f) {
+		result.x = (std::sin(theta * (1 - t)) * v1.x + std::sin(theta * t) * v2.x) / sinTheta;
+		result.y = (std::sin(theta * (1 - t)) * v1.y + std::sin(theta * t) * v2.y) / sinTheta;
+		result.z = (std::sin(theta * (1 - t)) * v1.z + std::sin(theta * t) * v2.z) / sinTheta;
+	}
+	return Normalize(result);
 }
