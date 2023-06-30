@@ -67,6 +67,9 @@
     <Filter Include="ソース ファイル\enemy">
       <UniqueIdentifier>{8235d9d1-37b9-4923-a294-51057c495163}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\collider">
+      <UniqueIdentifier>{b8d54fea-c18e-42ad-916b-4ef7eb4f0ec0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -208,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="enemy\TimeCall.h">
       <Filter>ヘッダー ファイル\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="collider\Collider.h">
+      <Filter>ヘッダー ファイル\collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

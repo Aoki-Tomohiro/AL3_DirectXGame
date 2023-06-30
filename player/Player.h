@@ -3,16 +3,17 @@
 #include <Input.h>
 #include "PlayerBullet.h"
 #include <list>
+#include "collider/Collider.h"
 
 #pragma once
-class Player {
+class Player : public Collider{
 public:
 	~Player();
 	void Initialize(Model* model, uint32_t textureHandle);
 	void Update();
-	void OnCollision();
+	void OnCollision() override;
+	Vector3 GetWorldPosition() override;
 	void Draw(ViewProjection viewProjection);
-	Vector3 GetWorldPosition();
 	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; };
 	float GetRadius() { return radius_; };
 

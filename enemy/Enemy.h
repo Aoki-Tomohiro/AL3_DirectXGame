@@ -4,6 +4,7 @@
 #include "EnemyBullet.h"
 #include "TimeCall.h"
 #include <stdio.h>
+#include "collider/Collider.h"
 
 class Player;
 
@@ -33,13 +34,14 @@ public:
 	void Update(Enemy* pEnemy);
 };
 
-class Enemy {
+class Enemy : public Collider{
 public:
 	static const int kFireInterval = 60;
 	~Enemy();
 	void Initialize(Model* model, uint32_t textureHandle);
 	void Update();
-	void OnCollision();
+	void OnCollision() override;
+	Vector3 GetWorldPosition() override;
 	void Fire();
 	void FireReset();
 	void Draw(ViewProjection viewProjection);
@@ -47,13 +49,12 @@ public:
 	float GetEnemySpeed() { return enemySpeed_; };
 	WorldTransform GetWorldTransform() { return worldTransform_; };
 	void EnemyMove(Vector3 move);
-	std::list<std::unique_ptr<EnemyBullet>> &GetEnemyBullets() {	return bullets_;}
+	std::list<EnemyBullet*>& GetEnemyBullets() { return bullets_; };
 	int32_t GetFireTimer() { return fireTimer_; };
 	void SetFireTimer(int32_t fireTimer) { this->fireTimer_ = fireTimer; };
 	std::list<TimedCall*> GetTimedCall() { return timedCalls_; };
 	void SetPlayer(Player* player) { player_ = player; };
-	Vector3 GetWorldPosition();
-	const std::list<std::unique_ptr<EnemyBullet>>& GetEnemyBullet() { return bullets_; };
+	const std::list<EnemyBullet*>& GetEnemyBullet() { return bullets_; };
 	float GetRadius() { return radius_; };
 
 private:
@@ -73,7 +74,7 @@ private:
 	//statePattern
 	BaseEnemyState* state_;
 	//弾
-	std::list<std::unique_ptr<EnemyBullet>> bullets_;
+	std::list<EnemyBullet*> bullets_;
 	//発射タイマー
 	int32_t fireTimer_ = kFireInterval;
 	//時限発動のリスト

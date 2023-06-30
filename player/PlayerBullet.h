@@ -1,16 +1,17 @@
 #include "Model.h"
 #include "WorldTransform.h"
+#include "collider/Collider.h"
 #pragma once
-class PlayerBullet
+class PlayerBullet : public Collider
 {
 public:
 	static const int32_t kLifeTime = 60 * 5;
 	void Initialize(Model* model, const Vector3& position, const Vector3& velocity);
 	void Update();
-	void OnCollision();
+	void OnCollision() override;
+	Vector3 GetWorldPosition() override;
 	void Draw(const ViewProjection& viewProjection);
 	bool isDead() const { return isDead_; };
-	Vector3 GetWorldPosition();
 	float GetRadius() { return radius_; };
 
 private:

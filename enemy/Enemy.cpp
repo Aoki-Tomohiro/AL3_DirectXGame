@@ -39,9 +39,9 @@ void Enemy::OnCollision(){};
 
 void Enemy::Update() {
 	// デスフラグの立った弾を削除
-	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
+	bullets_.remove_if([](EnemyBullet* bullet) {
 		if (bullet->isDead()) {
-			bullet.reset();
+			delete bullet;
 			return true;
 		}
 		return false;
@@ -82,7 +82,7 @@ void Enemy::Fire() {
 	newBullet->SetPlayer(player_);
 
 	//弾を登録する
-	bullets_.push_back(std::unique_ptr<EnemyBullet>(newBullet));
+	bullets_.push_back(newBullet);
 }
 
 void Enemy::FireReset() {
@@ -98,7 +98,7 @@ void Enemy::FireReset() {
 void Enemy::Draw(ViewProjection viewProjection) {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 	// 弾更新
-	for (std::unique_ptr<EnemyBullet>& bullet : bullets_) {
+	for (EnemyBullet* bullet : bullets_) {
 		bullet->Draw(viewProjection);
 	}
 }
@@ -136,7 +136,7 @@ void EnemyStateApproach::Update(Enemy* pEnemy) {
 	}*/
 
 	//弾更新
-	for (std::unique_ptr<EnemyBullet>& bullet : pEnemy->GetEnemyBullets()) {
+	for (EnemyBullet* bullet : pEnemy->GetEnemyBullets()) {
 		bullet->Update();
 	}
 }
@@ -159,7 +159,7 @@ void EnemyStateLeave::Update(Enemy* pEnemy) {
 	pEnemy->EnemyMove(move);
 
 	// 弾更新
-	for (std::unique_ptr<EnemyBullet>& bullet : pEnemy->GetEnemyBullets()) {
+	for (EnemyBullet* bullet : pEnemy->GetEnemyBullets()) {
 		bullet->Update();
 	}
 }

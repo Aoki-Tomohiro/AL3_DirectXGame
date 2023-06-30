@@ -1,19 +1,20 @@
 #pragma once
 #include "Model.h"
 #include "WorldTransform.h"
+#include "collider/Collider.h"
 
 class Player;
 
-class EnemyBullet {
+class EnemyBullet : public Collider{
 public:
 	static const int32_t kLifeTime = 30;
 	void Initialize(Model* model, const Vector3& position, const Vector3& velocity);
-	void OnCollision();
+	void OnCollision() override;
+	Vector3 GetWorldPosition() override;
 	void Update();
 	void Draw(const ViewProjection& viewProjection);
 	void SetPlayer(Player* player) { player_ = player; };
 	bool isDead() const { return isDead_; };
-	Vector3 GetWorldPosition();
 	float GetRadius() { return radius_; };
 
 private:
