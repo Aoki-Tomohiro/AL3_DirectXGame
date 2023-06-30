@@ -215,6 +215,9 @@
     <ClInclude Include="collider\Collider.h">
       <Filter>ヘッダー ファイル\collider</Filter>
     </ClInclude>
+    <ClInclude Include="collider\CollisionConfig.h">
+      <Filter>ヘッダー ファイル\collider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\SpritePS.hlsl">

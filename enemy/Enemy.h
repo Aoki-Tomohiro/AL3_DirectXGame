@@ -49,12 +49,12 @@ public:
 	float GetEnemySpeed() { return enemySpeed_; };
 	WorldTransform GetWorldTransform() { return worldTransform_; };
 	void EnemyMove(Vector3 move);
-	std::list<EnemyBullet*>& GetEnemyBullets() { return bullets_; };
+	std::list<std::unique_ptr<EnemyBullet>>& GetEnemyBullet() { return bullets_; };
 	int32_t GetFireTimer() { return fireTimer_; };
 	void SetFireTimer(int32_t fireTimer) { this->fireTimer_ = fireTimer; };
 	std::list<TimedCall*> GetTimedCall() { return timedCalls_; };
 	void SetPlayer(Player* player) { player_ = player; };
-	const std::list<EnemyBullet*>& GetEnemyBullet() { return bullets_; };
+	const std::list<std::unique_ptr<EnemyBullet>>& GetEnemyBullets() { return bullets_; };
 	float GetRadius() { return radius_; };
 
 private:
@@ -74,7 +74,7 @@ private:
 	//statePattern
 	BaseEnemyState* state_;
 	//弾
-	std::list<EnemyBullet*> bullets_;
+	std::list<std::unique_ptr<EnemyBullet>> bullets_;
 	//発射タイマー
 	int32_t fireTimer_ = kFireInterval;
 	//時限発動のリスト

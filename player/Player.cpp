@@ -2,10 +2,11 @@
 #include <cassert>
 #include "ImGuiManager.h"
 #include "MathFunction.h"
+#include "collider/CollisionConfig.h"
 
 Player::~Player() { 
-	for (PlayerBullet* bullet : bullets_) {
-		delete bullet;
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
+		bullet.release();
 	}
 }
 
@@ -16,6 +17,10 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 	worldTransform_.Initialize();
 	//シングルインスタンスを取得する
 	input_ = Input::GetInstance();
+	//衝突属性を設定
+	SetCollisionAttribute(kCollisionAttributePlayer);
+	//衝突対象を自分の属性以外に設定
+	SetCollisionMask(~kCollisionAttributePlayer);
 }
 
 void Player::OnCollision(){};
@@ -23,9 +28,9 @@ void Player::OnCollision(){};
 void Player::Update() {
 
 	//デスフラグの立った弾を削除
-	bullets_.remove_if([](PlayerBullet* bullet) {
+	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
 		if (bullet->isDead()) {
-			delete bullet;
+			bullet.release();
 			return true;
 		}
 		return false;
@@ -67,7 +72,7 @@ void Player::Update() {
 	Attack();
 
 	//弾更新
-	for (PlayerBullet* bullet : bullets_) {
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
 		bullet->Update();
 	}
 
@@ -107,13 +112,13 @@ void Player::Attack() {
 		newBullet->Initialize(model_, worldTransform_.translation_,velocity);
 
 		//弾を登録する
-		bullets_.push_back(newBullet);
+		bullets_.push_back(std::unique_ptr<PlayerBullet>(newBullet));
 	}
 }
 
 void Player::Draw(ViewProjection viewProjection) {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
-	for (PlayerBullet* bullet : bullets_) {
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
 		bullet->Draw(viewProjection);
 	}
 }

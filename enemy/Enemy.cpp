@@ -3,6 +3,7 @@
 #include "ImGuiManager.h"
 #include "MathFunction.h"
 #include "player/Player.h"
+#include "collider/CollisionConfig.h"
 
 Enemy::~Enemy() {
 	for (TimedCall* timedCall : timedCalls_) {
@@ -25,6 +26,10 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle) {
 	}
 	state_ = new EnemyStateApproach();
 	state_->Initialize(this);
+	// 衝突属性を設定
+	SetCollisionAttribute(kCollisionAttributeEnemy);
+	// 衝突対象を自分の属性以外に設定
+	SetCollisionMask(~kCollisionAttributeEnemy);
 }
 
 void Enemy::ChangeState(BaseEnemyState* newState) { 
@@ -39,9 +44,9 @@ void Enemy::OnCollision(){};
 
 void Enemy::Update() {
 	// デスフラグの立った弾を削除
-	bullets_.remove_if([](EnemyBullet* bullet) {
+	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
 		if (bullet->isDead()) {
-			delete bullet;
+			bullet.reset();
 			return true;
 		}
 		return false;
@@ -82,7 +87,7 @@ void Enemy::Fire() {
 	newBullet->SetPlayer(player_);
 
 	//弾を登録する
-	bullets_.push_back(newBullet);
+	bullets_.push_back(std::unique_ptr<EnemyBullet>(newBullet));
 }
 
 void Enemy::FireReset() {
@@ -98,7 +103,7 @@ void Enemy::FireReset() {
 void Enemy::Draw(ViewProjection viewProjection) {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 	// 弾更新
-	for (EnemyBullet* bullet : bullets_) {
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets_) {
 		bullet->Draw(viewProjection);
 	}
 }
@@ -136,7 +141,8 @@ void EnemyStateApproach::Update(Enemy* pEnemy) {
 	}*/
 
 	//弾更新
-	for (EnemyBullet* bullet : pEnemy->GetEnemyBullets()) {
+	const std::list<std::unique_ptr<EnemyBullet>>& bullets = pEnemy->GetEnemyBullets();
+	for (const std::unique_ptr<EnemyBullet>& bullet : bullets) {
 		bullet->Update();
 	}
 }
@@ -159,7 +165,8 @@ void EnemyStateLeave::Update(Enemy* pEnemy) {
 	pEnemy->EnemyMove(move);
 
 	// 弾更新
-	for (EnemyBullet* bullet : pEnemy->GetEnemyBullets()) {
+	const std::list<std::unique_ptr<EnemyBullet>>& bullets = pEnemy->GetEnemyBullets();
+	for (const std::unique_ptr<EnemyBullet>& bullet : bullets) {
 		bullet->Update();
 	}
 }

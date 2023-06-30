@@ -55,7 +55,6 @@ private:
 	/// <param name="colliderA"></param>
 	/// <param name="colliderB"></param>
 	void CheckCollisionPair(Collider* colliderA, Collider* colliderB);
-	void CheckCollisionPair(Collider* colliderA, std::unique_ptr<Collider>& colliderB);
 	
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;

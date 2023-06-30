@@ -122,35 +122,47 @@ void GameScene::Draw() {
 
 void GameScene::CheckAllCollisions() {
 	//自弾リストの取得
-	const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
-	const std::list<EnemyBullet*>& enemyBullets = enemy_->GetEnemyBullet();
+	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player_->GetBullets();
+	const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = enemy_->GetEnemyBullets();
 
-	#pragma region 自キャラと敵弾の当たり判定
-	//自キャラと敵弾すべての当たり判定
-	for (EnemyBullet* bullet : enemyBullets) {
-		//ペアの衝突判定
-		CheckCollisionPair(player_, bullet);
+	//コライダー
+	std::list<Collider*> colliders_;
+    //コライダーをリストに登録
+	colliders_.push_back(player_);
+	colliders_.push_back(enemy_);
+	//自弾すべてについて
+	for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
+		colliders_.push_back(bullet.get());
 	}
-	#pragma endregion
-
-	#pragma region 自弾と敵キャラの当たり判定
-	for (PlayerBullet* bullet : playerBullets) {
-		// ペアの衝突判定
-		CheckCollisionPair(enemy_, bullet);
+	//敵弾すべてについて
+	for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
+		colliders_.push_back(bullet.get());
 	}
-	#pragma endregion
 
-	#pragma region 自弾と敵弾の当たり判定
-	for (PlayerBullet* playerBullet : playerBullets) {
-		for (EnemyBullet* enemyBullet : enemyBullets) {
-			// ペアの衝突判定
-			CheckCollisionPair(playerBullet, enemyBullet);
+	//リスト内のペアを総当たり
+	std::list<Collider*>::iterator itrA = colliders_.begin();
+	for (; itrA != colliders_.end(); ++itrA) {
+		//イテレータAからコライダーAを取得する
+		Collider* colliderA = *itrA;
+
+		//イテレータBはイテレータAの次の要素から回す(重複判定を回避)
+		std::list<Collider*>::iterator itrB = itrA;
+		itrB++;
+
+		for (; itrB != colliders_.end(); ++itrB) {
+			Collider* colliderB = *itrB;
+
+			//ペアの当たり判定
+			CheckCollisionPair(colliderA, colliderB);
 		}
 	}
-	#pragma endregion
 }
 
 void GameScene::CheckCollisionPair(Collider* colliderA, Collider* colliderB) {
+	if ((colliderA->GetCollisionAttribute() & colliderB->GetCollisionMask()) == 0 ||
+		(colliderB->GetCollisionAttribute() & colliderA->GetCollisionMask()) == 0) {
+		return;
+	}
 	Vector3 posA = colliderA->GetWorldPosition();
 	Vector3 posB = colliderB->GetWorldPosition();
 	colliderA->SetRadius(colliderA->GetRadius());
