@@ -7,8 +7,11 @@ public:
 	static const int32_t kLifeTime = 60 * 5;
 	void Initialize(Model* model, const Vector3& position, const Vector3& velocity);
 	void Update();
+	void OnCollision();
 	void Draw(const ViewProjection& viewProjection);
 	bool isDead() const { return isDead_; };
+	Vector3 GetWorldPosition();
+	float GetRadius() { return radius_; };
 
 private:
 	//ワールド座標データ
@@ -23,4 +26,5 @@ private:
 	int32_t deathTimer_ = kLifeTime;
 	//デスフラグ
 	bool isDead_ = false;
+	float radius_ = 1.0f;
 };

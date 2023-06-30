@@ -35,7 +35,17 @@ void Enemy::EnemyMove(Vector3 move) {
 	Move(worldTransform_.translation_, move);
 }
 
+void Enemy::OnCollision(){};
+
 void Enemy::Update() {
+	// デスフラグの立った弾を削除
+	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
+		if (bullet->isDead()) {
+			bullet.reset();
+			return true;
+		}
+		return false;
+	});
 
 	// 弾の削除
 	timedCalls_.remove_if([](TimedCall* timedCall) {
@@ -126,7 +136,7 @@ void EnemyStateApproach::Update(Enemy* pEnemy) {
 	}*/
 
 	//弾更新
-	for (std::unique_ptr<EnemyBullet>& bullet : pEnemy->GetEnemyBullet()) {
+	for (std::unique_ptr<EnemyBullet>& bullet : pEnemy->GetEnemyBullets()) {
 		bullet->Update();
 	}
 }
@@ -149,7 +159,7 @@ void EnemyStateLeave::Update(Enemy* pEnemy) {
 	pEnemy->EnemyMove(move);
 
 	// 弾更新
-	for (std::unique_ptr<EnemyBullet>& bullet : pEnemy->GetEnemyBullet()) {
+	for (std::unique_ptr<EnemyBullet>& bullet : pEnemy->GetEnemyBullets()) {
 		bullet->Update();
 	}
 }

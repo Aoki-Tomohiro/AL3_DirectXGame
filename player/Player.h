@@ -10,16 +10,11 @@ public:
 	~Player();
 	void Initialize(Model* model, uint32_t textureHandle);
 	void Update();
+	void OnCollision();
 	void Draw(ViewProjection viewProjection);
-	Vector3 GetWorldPosition() {
-		//ワールド座標を入れる変数
-		Vector3 worldPos;
-		//ワールド行列の平行移動成分を取得(ワールド座標)
-		worldPos.x = worldTransform_.translation_.x;
-		worldPos.y = worldTransform_.translation_.y;
-		worldPos.z = worldTransform_.translation_.z;
-		return worldPos;
-	};
+	Vector3 GetWorldPosition();
+	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; };
+	float GetRadius() { return radius_; };
 
 private:
 	void Attack();
@@ -37,4 +32,5 @@ private:
 	    &worldTransform_.translation_.z};
 	//弾
 	std::list<PlayerBullet*> bullets_;
+	float radius_ = 1.0f;
 };
