@@ -110,6 +110,7 @@
     <ClCompile Include="3d\WorldTransformEx.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
+    <ClCompile Include="collider\CollisionManager.cpp" />
     <ClCompile Include="enemy\Enemy.cpp" />
     <ClCompile Include="enemy\EnemyBullet.cpp" />
     <ClCompile Include="enemy\TimeCall.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="collider\Collider.h" />
     <ClInclude Include="collider\CollisionConfig.h" />
+    <ClInclude Include="collider\CollisionManager.h" />
     <ClInclude Include="enemy\Enemy.h" />
     <ClInclude Include="enemy\EnemyBullet.h" />
     <ClInclude Include="enemy\TimeCall.h" />

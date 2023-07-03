@@ -5,7 +5,7 @@
 class Collider {
 public:
 	//衝突時に呼ばれる関数
-	virtual void OnCollision() = 0;
+	virtual void OnCollision(){};
 	virtual Vector3 GetWorldPosition() = 0;
 	//半径を取得
 	float GetRadius() { return radius_; };

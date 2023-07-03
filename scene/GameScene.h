@@ -11,6 +11,7 @@
 #include "player/Player.h"
 #include "DebugCamera.h"
 #include "enemy/Enemy.h"
+#include "collider/CollisionManager.h"
 
 /// <summary>
 /// ゲームシーン
@@ -46,15 +47,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 衝突判定と応答
 	/// </summary>
-	void CheckAllCollisions();
-
-private:
-	/// <summary>
-	/// コライダー２つの衝突判定と応答
-	/// </summary>
-	/// <param name="colliderA"></param>
-	/// <param name="colliderB"></param>
-	void CheckCollisionPair(Collider* colliderA, Collider* colliderB);
+	/*void CheckAllCollisions();*/
 	
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -74,6 +67,8 @@ private: // メンバ変数
 	DebugCamera* debugCamera_ = nullptr;
 	//敵
 	Enemy* enemy_ = nullptr;
+	//衝突マネージャー
+	CollisionManager* collisionManager_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用

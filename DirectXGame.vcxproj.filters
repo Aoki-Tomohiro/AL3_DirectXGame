@@ -70,6 +70,9 @@
     <Filter Include="ヘッダー ファイル\collider">
       <UniqueIdentifier>{b8d54fea-c18e-42ad-916b-4ef7eb4f0ec0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\collider">
+      <UniqueIdentifier>{a26d19a0-b972-402d-96df-a2f633253190}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -107,6 +110,9 @@
     </ClCompile>
     <ClCompile Include="enemy\TimeCall.cpp">
       <Filter>ソース ファイル\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="collider\CollisionManager.cpp">
+      <Filter>ソース ファイル\collider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +222,9 @@
       <Filter>ヘッダー ファイル\collider</Filter>
     </ClInclude>
     <ClInclude Include="collider\CollisionConfig.h">
+      <Filter>ヘッダー ファイル\collider</Filter>
+    </ClInclude>
+    <ClInclude Include="collider\CollisionManager.h">
       <Filter>ヘッダー ファイル\collider</Filter>
     </ClInclude>
   </ItemGroup>
