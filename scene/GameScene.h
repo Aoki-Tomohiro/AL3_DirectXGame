@@ -43,11 +43,6 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw();
-
-	/// <summary>
-	/// 衝突判定と応答
-	/// </summary>
-	/*void CheckAllCollisions();*/
 	
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
