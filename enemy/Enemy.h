@@ -55,7 +55,6 @@ public:
 	std::list<TimedCall*> GetTimedCall() { return timedCalls_; };
 	void SetPlayer(Player* player) { player_ = player; };
 	const std::list<std::unique_ptr<EnemyBullet>>& GetEnemyBullets() { return bullets_; };
-	float GetRadius() { return radius_; };
 
 private:
 	// ワールド変換データ
@@ -82,5 +81,4 @@ private:
 
 	//自キャラ
 	Player* player_ = nullptr;
-	float radius_ = 1.0f;
 };

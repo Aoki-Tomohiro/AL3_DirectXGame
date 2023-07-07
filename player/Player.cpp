@@ -21,6 +21,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 	SetCollisionAttribute(kCollisionAttributePlayer);
 	//衝突対象を自分の属性以外に設定
 	SetCollisionMask(~kCollisionAttributePlayer);
+	SetRadius(1.0f);
 }
 
 void Player::OnCollision(){};
