@@ -21,6 +21,7 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position,const Vector3
 	worldTransform_.rotation_.y = std::atan2(velocity_.x, velocity_.z);
 	float length = Length(Vector3{velocity.x, 0, velocity.z});
 	worldTransform_.rotation_.x = std::atan2(-velocity_.y, length);
+	SetRadius(1.0f);
 }
 
 void EnemyBullet::OnCollision() { 

@@ -123,7 +123,7 @@ void GameScene::Draw() {
 void GameScene::CheckAllCollisions() {
 	//自弾リストの取得
 	const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
-	const std::list<EnemyBullet*>& enemyBullets = enemy_->GetEnemyBullet();
+	const std::list<EnemyBullet*>& enemyBullets = enemy_->GetEnemyBullets();
 
 	#pragma region 自キャラと敵弾の当たり判定
 	//自キャラと敵弾すべての当たり判定
@@ -153,8 +153,6 @@ void GameScene::CheckAllCollisions() {
 void GameScene::CheckCollisionPair(Collider* colliderA, Collider* colliderB) {
 	Vector3 posA = colliderA->GetWorldPosition();
 	Vector3 posB = colliderB->GetWorldPosition();
-	colliderA->SetRadius(colliderA->GetRadius());
-	colliderB->SetRadius(colliderB->GetRadius());
 	float distance = Length(Subtract(posA, posB));
 	//球と球の交差判定
 	if (distance <= colliderA->GetRadius() + colliderB->GetRadius()) {

@@ -15,7 +15,6 @@ public:
 	Vector3 GetWorldPosition() override;
 	void Draw(ViewProjection viewProjection);
 	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; };
-	float GetRadius() { return radius_; };
 
 private:
 	void Attack();
@@ -33,5 +32,4 @@ private:
 	    &worldTransform_.translation_.z};
 	//弾
 	std::list<PlayerBullet*> bullets_;
-	float radius_ = 1.0f;
 };

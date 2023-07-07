@@ -25,6 +25,7 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle) {
 	}
 	state_ = new EnemyStateApproach();
 	state_->Initialize(this);
+	SetRadius(1.0f);
 }
 
 void Enemy::ChangeState(BaseEnemyState* newState) { 
