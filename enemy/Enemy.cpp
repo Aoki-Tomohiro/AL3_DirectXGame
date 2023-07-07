@@ -126,7 +126,7 @@ void EnemyStateApproach::Update(Enemy* pEnemy) {
 	}*/
 
 	//弾更新
-	for (std::unique_ptr<EnemyBullet>& bullet : pEnemy->GetEnemyBullet()) {
+	for (const std::unique_ptr<EnemyBullet>& bullet : pEnemy->GetEnemyBullets()) {
 		bullet->Update();
 	}
 }
@@ -149,7 +149,7 @@ void EnemyStateLeave::Update(Enemy* pEnemy) {
 	pEnemy->EnemyMove(move);
 
 	// 弾更新
-	for (std::unique_ptr<EnemyBullet>& bullet : pEnemy->GetEnemyBullet()) {
+	for (const std::unique_ptr<EnemyBullet>& bullet : pEnemy->GetEnemyBullets()) {
 		bullet->Update();
 	}
 }

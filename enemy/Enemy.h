@@ -46,7 +46,7 @@ public:
 	float GetEnemySpeed() { return enemySpeed_; };
 	WorldTransform GetWorldTransform() { return worldTransform_; };
 	void EnemyMove(Vector3 move);
-	std::list<std::unique_ptr<EnemyBullet>> &GetEnemyBullet() {	return bullets_;}
+	const std::list<std::unique_ptr<EnemyBullet>>& GetEnemyBullets() { return bullets_; };
 	int32_t GetFireTimer() { return fireTimer_; };
 	void SetFireTimer(int32_t fireTimer) { this->fireTimer_ = fireTimer; };
 	std::list<TimedCall*> GetTimedCall() { return timedCalls_; };
