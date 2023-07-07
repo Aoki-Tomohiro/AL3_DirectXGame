@@ -15,8 +15,7 @@ public:
 	void Draw(const ViewProjection& viewProjection);
 	void SetPlayer(Player* player) { player_ = player; };
 	bool isDead() const { return isDead_; };
-	float GetRadius() { return radius_; };
-
+	
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
@@ -25,5 +24,4 @@ private:
 	Player* player_;
 	float t_ = 0.0f;
 	bool isDead_ = false;
-	float radius_ = 1.0f;
 };

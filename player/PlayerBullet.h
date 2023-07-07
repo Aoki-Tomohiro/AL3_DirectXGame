@@ -12,7 +12,6 @@ public:
 	Vector3 GetWorldPosition() override;
 	void Draw(const ViewProjection& viewProjection);
 	bool isDead() const { return isDead_; };
-	float GetRadius() { return radius_; };
 
 private:
 	//ワールド座標データ
@@ -27,5 +26,4 @@ private:
 	int32_t deathTimer_ = kLifeTime;
 	//デスフラグ
 	bool isDead_ = false;
-	float radius_ = 1.0f;
 };
