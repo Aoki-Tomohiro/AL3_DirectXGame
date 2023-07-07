@@ -1,5 +1,5 @@
 #pragma once
-#include "player/Player.h"
+#include "collider/Collider.h"
 #include <list>
 
 class CollisionManager{

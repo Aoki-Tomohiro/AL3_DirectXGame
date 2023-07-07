@@ -1,4 +1,6 @@
 #pragma once
+#include <stdint.h>
+#include "math/MathFunction.h"
 /// <summary>
 /// 衝突判定オブジェクト
 /// </summary>
@@ -22,7 +24,7 @@ public:
 	//衝突属性(相手)を設定
 	void SetCollisionMask(uint32_t CollisionMask) { this->CollisionMask_ = CollisionMask; };
 
-	private:
+private:
 	//衝突半径
 	float radius_ = 1.0f;
 	//衝突属性(自分)
