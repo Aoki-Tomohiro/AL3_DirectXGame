@@ -56,8 +56,7 @@ void GameScene::Initialize() {
 	// 3Dモデルの生成
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 	// skydome
-	Skydome* skydome = new Skydome;
-	skydome_.reset(skydome);
+	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(modelSkydome_);
 }
 
@@ -109,10 +108,12 @@ void GameScene::Update() {
 #endif
 
 	// レールカメラの処理
-	railCamera_->Update();
-	viewProjection_.matView = railCamera_->GetViewProjection().matView;
-	viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
-	viewProjection_.TransferMatrix();
+	if (isDebugCameraActive_ == false) {
+		railCamera_->Update();
+		viewProjection_.matView = railCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
+		viewProjection_.TransferMatrix();
+	}
 }
 
 void GameScene::Draw() {

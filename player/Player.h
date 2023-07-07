@@ -15,7 +15,6 @@ public:
 	Vector3 GetWorldPosition() override;
 	void Draw(ViewProjection viewProjection);
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() const { return bullets_; };
-	float GetRadius() { return radius_; };
 	void SetParent(const WorldTransform* parent);
 
 private:
@@ -34,5 +33,4 @@ private:
 	    &worldTransform_.translation_.z};
 	//弾
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
-	float radius_ = 1.0f;
 };

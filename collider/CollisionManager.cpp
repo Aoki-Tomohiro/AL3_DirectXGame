@@ -1,5 +1,4 @@
 #include "collider/CollisionManager.h"
-#include "MathFunction.h"
 
 void CollisionManager::ClearColliderList() {
 	colliders_.clear();

@@ -18,6 +18,7 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vecto
 	SetCollisionAttribute(kCollisionAttributePlayer);
 	// 衝突対象を自分の属性以外に設定
 	SetCollisionMask(~kCollisionAttributePlayer);
+	SetRadius(1.0f);
 }
 
 void PlayerBullet::OnCollision() { 

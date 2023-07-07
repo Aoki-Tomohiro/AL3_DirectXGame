@@ -30,6 +30,7 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle) {
 	SetCollisionAttribute(kCollisionAttributeEnemy);
 	// 衝突対象を自分の属性以外に設定
 	SetCollisionMask(~kCollisionAttributeEnemy);
+	SetRadius(1.0f);
 }
 
 void Enemy::ChangeState(BaseEnemyState* newState) { 
