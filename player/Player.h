@@ -9,13 +9,14 @@
 class Player : public Collider{
 public:
 	~Player();
-	void Initialize(Model* model, uint32_t textureHandle);
+	void Initialize(Model* model, uint32_t textureHandle, Vector3& playerPosition);
 	void Update();
 	void OnCollision() override;
 	Vector3 GetWorldPosition() override;
 	void Draw(ViewProjection viewProjection);
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() const { return bullets_; };
 	float GetRadius() { return radius_; };
+	void SetParent(const WorldTransform* parent);
 
 private:
 	void Attack();
