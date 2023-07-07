@@ -1,9 +1,9 @@
 #include "GameScene.h"
-#include "TextureManager.h"
-#include <cassert>
-#include <ImGuiManager.h>
 #include "AxisIndicator.h"
+#include "TextureManager.h"
 #include "math/MathFunction.h"
+#include <ImGuiManager.h>
+#include <cassert>
 
 GameScene::GameScene() {}
 
@@ -13,6 +13,8 @@ GameScene::~GameScene() {
 	delete debugCamera_;
 	delete enemy_;
 	delete collisionManager_;
+	delete modelSkydome_;
+	skydome_.release();
 }
 
 void GameScene::Initialize() {
@@ -20,78 +22,84 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
-	//ファイルを指定してテクスチャを読み込む
+	// ファイルを指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("sample.png");
-	//3Dモデルの生成
+	// 3Dモデルの生成
 	model_ = Model::Create();
-	//ビュープロジェクションの初期化
+	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
-	//自キャラの生成
+	// 自キャラの生成
 	player_ = new Player();
-	//自キャラの初期化
+	// 自キャラの初期化
 	player_->Initialize(model_, textureHandle_);
-	//デバッグカメラの生成
+	// デバッグカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
-	//軸方向表示の表示を有効にする
+	// 軸方向表示の表示を有効にする
 	AxisIndicator::GetInstance()->SetVisible(true);
-	//軸方向表示が参照するビュープロジェクションを指定する（アドレス渡し）
+	// 軸方向表示が参照するビュープロジェクションを指定する（アドレス渡し）
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
-	//敵の生成
+	// 敵の生成
 	enemy_ = new Enemy();
 	// 敵キャラに自キャラのアドレスを渡す
 	enemy_->SetPlayer(player_);
-	//敵の初期化
+	// 敵の初期化
 	enemy_->Initialize(model_, textureHandle_);
-	//衝突マネージャーの生成
+	// 衝突マネージャーの生成
 	collisionManager_ = new CollisionManager();
+	// 3Dモデルの生成
+	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
+	// skydome
+	Skydome* skydome = new Skydome;
+	skydome_.reset(skydome);
+	skydome_->Initialize(modelSkydome_);
 }
 
 void GameScene::Update() {
-	player_->Update(); 
+	player_->Update();
 	enemy_->Update();
-	//CollisionManagerのリストをクリア
+	skydome_->Update();
+	// CollisionManagerのリストをクリア
 	collisionManager_->ClearColliderList();
-	//CollisionManagerのリストを追加
+	// CollisionManagerのリストを追加
 	collisionManager_->SetColliderList(player_);
 	collisionManager_->SetColliderList(enemy_);
-	//自弾リストの取得
+	// 自弾リストの取得
 	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player_->GetBullets();
-	//自弾すべてについて
+	// 自弾すべてについて
 	for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
 		collisionManager_->SetColliderList(bullet.get());
 	}
 	// 敵弾リストの取得
 	const std::list<std::unique_ptr<EnemyBullet>>& enemyBullets = enemy_->GetEnemyBullets();
-	//敵弾すべてについて
+	// 敵弾すべてについて
 	for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets) {
 		collisionManager_->SetColliderList(bullet.get());
 	}
 	collisionManager_->CheckAllCollisions();
 
-	//カメラの処理
+	// カメラの処理
 	if (isDebugCameraActive_) {
 		debugCamera_->Update();
 		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
-		//ビュープロジェクション行列の転送
+		// ビュープロジェクション行列の転送
 		viewProjection_.TransferMatrix();
 	} else {
-	    //ビュープロジェクション行列の更新と転送
+		// ビュープロジェクション行列の更新と転送
 		viewProjection_.UpdateMatrix();
 	}
 
-	#ifdef _DEBUG
+#ifdef _DEBUG
 	if (isDebugCameraActive_ == false) {
 		if (input_->TriggerKey(DIK_1)) {
 			isDebugCameraActive_ = true;
 		}
-	}
-	else{
+	} else {
 		if (input_->TriggerKey(DIK_1)) {
 			isDebugCameraActive_ = false;
 		}
 	}
-	#endif
+#endif
 }
 
 void GameScene::Draw() {
@@ -122,6 +130,7 @@ void GameScene::Draw() {
 	/// </summary>
 	player_->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
+	skydome_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

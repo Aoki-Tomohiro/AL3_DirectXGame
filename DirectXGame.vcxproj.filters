@@ -73,6 +73,12 @@
     <Filter Include="ソース ファイル\collider">
       <UniqueIdentifier>{a26d19a0-b972-402d-96df-a2f633253190}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\skydome">
+      <UniqueIdentifier>{11887b54-a067-4dea-96da-404b5afff3b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\skydome">
+      <UniqueIdentifier>{1616a0af-ba76-4e5a-864d-051edcab5ce1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -113,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="collider\CollisionManager.cpp">
       <Filter>ソース ファイル\collider</Filter>
+    </ClCompile>
+    <ClCompile Include="skydome\Skydome.cpp">
+      <Filter>ソース ファイル\skydome</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -226,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="collider\CollisionManager.h">
       <Filter>ヘッダー ファイル\collider</Filter>
+    </ClInclude>
+    <ClInclude Include="skydome\Skydome.h">
+      <Filter>ヘッダー ファイル\skydome</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
