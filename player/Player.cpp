@@ -16,7 +16,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 	worldTransform_.Initialize();
 	//シングルインスタンスを取得する
 	input_ = Input::GetInstance();
-	SetRadius(10.0f);
+	SetRadius(1.0f);
 }
 
 void Player::OnCollision(){};
