@@ -372,3 +372,37 @@ Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t) {
 	}
 	return Normalize(result);
 }
+
+Vector3 Catmull_Rom(std::vector<Vector3> points, float t) {
+	Vector3 result;
+	result.x =
+	    0.5f * ((-points[0].x + 3 * points[1].x - 3 * points[2].x + points[3].x) * (t * t * t) +
+	    (2 * points[0].x - 5 * points[1].x + 4 * points[2].x - points[3].x) * (t * t) +
+	    (-points[0].x + points[2].x) * t + 2 * points[1].x);
+	result.y =
+	    0.5f * ((-points[0].y + 3 * points[1].y - 3 * points[2].y + points[3].y) * (t * t * t) +
+	    (2 * points[0].y - 5 * points[1].y + 4 * points[2].y - points[3].y) * (t * t) +
+	    (-points[0].y + points[2].y) * t + 2 * points[1].y);
+	result.z =
+	    0.5f * ((-points[0].z + 3 * points[1].z - 3 * points[2].z + points[3].z) * (t * t * t) +
+	    (2 * points[0].z - 5 * points[1].z + 4 * points[2].z - points[3].z) * (t * t) +
+	    (-points[0].z + points[2].z) * t + 2 * points[1].z);
+	return result;
+}
+
+Vector3 Catmull_Rom(Vector3& p0, Vector3& p1, Vector3& p2, Vector3& p3, float t) {
+	Vector3 result;
+	result.x =
+	    0.5f * ((-p0.x + 3 * p1.x - 3 * p2.x + p3.x) * (t * t * t) +
+	    (2 * p0.x - 5 * p1.x + 4 * p2.x - p3.x) * (t * t) +
+	    (-p0.x + p2.x) * t + 2 * p1.x);
+	result.y =
+	    0.5f * ((-p0.y + 3 * p1.y - 3 * p2.y + p3.y) * (t * t * t) +
+	    (2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y) * (t * t) +
+	    (-p0.y + p2.y) * t + 2 * p1.y);
+	result.z =
+	    0.5f * ((-p0.z + 3 * p1.z - 3 * p2.z + p3.z) * (t * t * t) +
+	    (2 * p0.z - 5 * p1.z + 4 * p2.z - p3.z) * (t * t) +
+	    (-p0.z + p2.z) * t + 2 * p1.z);
+	return result;
+}

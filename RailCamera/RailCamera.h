@@ -1,6 +1,8 @@
 #pragma once
+#include <vector>
 #include "WorldTransform.h"
 #include "ViewProjection.h"
+#include "math/MathFunction.h"
 
 class RailCamera {
 public:

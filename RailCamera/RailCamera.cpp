@@ -11,18 +11,18 @@ void RailCamera::Initialize(Vector3 translation, Vector3 rotation){
 };
 
 void RailCamera::Update() { 
-	Vector3 move{0, 0, 0}; 
-	const float kCameraSpeed = 0.02f;
+	//Vector3 move{0, 0, 0}; 
+	//const float kCameraSpeed = 0.02f;
 
-	// 行列の更新
-	move.z -= kCameraSpeed;
-	Move(worldTransform_.translation_, move);
+	//// 行列の更新
+	//move.z -= kCameraSpeed;
+	//Move(worldTransform_.translation_, move);
 	worldTransform_.matWorld_ = MakeAffineMatrix(
 	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
 	//カメラオブジェクトのワールド行列からビュー行列を計算する
 	viewProjection_.matView = Inverse(worldTransform_.matWorld_);
-
+	
 	ImGui::Begin("Camera");
 	ImGui::DragFloat3("CameraTranslate", &worldTransform_.translation_.x, 0.01f);
 	ImGui::DragFloat3("CameraRotate", &worldTransform_.rotation_.x, 0.01f);

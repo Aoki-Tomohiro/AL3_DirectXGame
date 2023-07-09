@@ -1,5 +1,6 @@
 #include "Vector3.h"
 #include "Matrix4x4.h"
+#include <vector>
 #include <cassert>
 #include <cmath>
 #pragma once
@@ -21,3 +22,5 @@ Matrix4x4 MakeViewportMatrix(
 Vector3 TransformNormal(const Vector3& vector, const Matrix4x4& matrix);
 Vector3 Leap(const Vector3& v1, const Vector3& v2, float t);
 Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t);
+Vector3 Catmull_Rom(std::vector<Vector3> points, float t);
+Vector3 Catmull_Rom(Vector3& p0, Vector3& p1, Vector3& p2, Vector3& p3, float t);

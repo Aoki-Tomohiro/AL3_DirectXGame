@@ -72,6 +72,8 @@ private: // メンバ変数
 	std::unique_ptr<Skydome> skydome_;
 	//RailCamera
 	RailCamera* railCamera_ = nullptr;
+	// スプライン曲線制御点(通過点)
+	std::vector<Vector3> controlPoints_;
 
 	/// <summary>
 	/// ゲームシーン用
