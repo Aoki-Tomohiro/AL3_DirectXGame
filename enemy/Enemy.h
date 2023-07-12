@@ -6,6 +6,9 @@
 #include <stdio.h>
 #include "collider/Collider.h"
 
+//GameSceneの前方宣言(苦肉の策)
+class GameScene;
+//Playerの前方宣言
 class Player;
 
 enum class Phase
@@ -38,7 +41,7 @@ class Enemy : public Collider{
 public:
 	static const int kFireInterval = 60;
 	~Enemy();
-	void Initialize(Model* model, uint32_t textureHandle);
+	void Initialize(Model* model, uint32_t textureHandle, const Vector3& pos);
 	void Update();
 	void OnCollision() override;
 	Vector3 GetWorldPosition() override;
@@ -49,11 +52,12 @@ public:
 	float GetEnemySpeed() { return enemySpeed_; };
 	WorldTransform GetWorldTransform() { return worldTransform_; };
 	void EnemyMove(Vector3 move);
-	const std::list<std::unique_ptr<EnemyBullet>>& GetEnemyBullets() { return bullets_; };
 	int32_t GetFireTimer() { return fireTimer_; };
 	void SetFireTimer(int32_t fireTimer) { this->fireTimer_ = fireTimer; };
 	std::list<TimedCall*> GetTimedCall() { return timedCalls_; };
 	void SetPlayer(Player* player) { player_ = player; };
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; };
+	bool isDead() const { return isDead_; };
 
 private:
 	// ワールド変換データ
@@ -71,13 +75,16 @@ private:
 	errno_t err_;
 	//statePattern
 	BaseEnemyState* state_;
-	//弾
-	std::list<std::unique_ptr<EnemyBullet>> bullets_;
+	////弾
 	//発射タイマー
 	int32_t fireTimer_ = kFireInterval;
 	//時限発動のリスト
 	std::list<TimedCall*> timedCalls_;
+	//生存フラグ
+	bool isDead_ = false;
 
 	//自キャラ
 	Player* player_ = nullptr;
+	//ゲームシーン
+	GameScene* gameScene_ = nullptr;
 };

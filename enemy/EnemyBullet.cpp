@@ -43,17 +43,19 @@ void EnemyBullet::Update() {
 		t_ += 1.0f / 120.0f;
 	}
 
-	//ベクトルを正規化する
+	// ベクトルを正規化する
 	Vector3 nPlayer = Normalize(toPlayer);
 	Vector3 nVelocity = Normalize(velocity_);
-	velocity_ = Slerp(nVelocity, nPlayer, t_);
-	velocity_.x *= 0.5f;
-	velocity_.y *= 0.5f;
-	velocity_.z *= 0.5f;
 
-	worldTransform_.rotation_.y = std::atan2(velocity_.x, velocity_.z);
-	float length = Length(Vector3{velocity_.x, 0, velocity_.z});
-	worldTransform_.rotation_.x = std::atan2(-velocity_.y, length);
+	if (player_->GetWorldPosition().z <= EnemyBullet::GetWorldPosition().z) {
+		velocity_ = Slerp(nVelocity, nPlayer, t_);
+		velocity_.x *= 0.5f;
+		velocity_.y *= 0.5f;
+		velocity_.z *= 0.5f;
+		worldTransform_.rotation_.y = std::atan2(velocity_.x, velocity_.z);
+		float length = Length(Vector3{velocity_.x, 0, velocity_.z});
+		worldTransform_.rotation_.x = std::atan2(-velocity_.y, length);
+	}
 
 	Move(worldTransform_.translation_, velocity_);
 	worldTransform_.UpdateMatrix();

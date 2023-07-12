@@ -1,3 +1,4 @@
+#include "GameScene.h"
 #include "Enemy.h"
 #include <cassert>
 #include "ImGuiManager.h"
@@ -11,12 +12,12 @@ Enemy::~Enemy() {
 	}
 }
 
-void Enemy::Initialize(Model* model, uint32_t textureHandle) {
+void Enemy::Initialize(Model* model, uint32_t textureHandle,const Vector3& pos) {
 	assert(model);
 	model_ = model;
 	textureHandle_ = textureHandle;
 	worldTransform_.Initialize();
-	worldTransform_.translation_ = {10.0f, 0.0f, 50.0f};
+	worldTransform_.translation_ = pos;
 	char fname[] = "enemy/enemySpeed.txt";
 	err_ = fopen_s(&fp, fname, "r");
 	if (fp != 0  && err_ == 0)
@@ -41,18 +42,11 @@ void Enemy::EnemyMove(Vector3 move) {
 	Move(worldTransform_.translation_, move);
 }
 
-void Enemy::OnCollision(){};
+void Enemy::OnCollision(){ 
+	isDead_ = true; 
+};
 
 void Enemy::Update() {
-	// デスフラグの立った弾を削除
-	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
-		if (bullet->isDead()) {
-			bullet.reset();
-			return true;
-		}
-		return false;
-	});
-
 	// 弾の削除
 	timedCalls_.remove_if([](TimedCall* timedCall) {
 		if (timedCall->IsFinished() == true) {
@@ -72,7 +66,7 @@ void Enemy::Fire() {
 	assert(player_);
 
 	//弾の速度
-	const float kBulletSpeed = 1.0f;
+	const float kBulletSpeed = 0.5f;
 
 	//自キャラのワールド座標を取得する
 	Vector3 playerPos = player_->GetWorldPosition();
@@ -88,7 +82,7 @@ void Enemy::Fire() {
 	newBullet->SetPlayer(player_);
 
 	//弾を登録する
-	bullets_.push_back(std::unique_ptr<EnemyBullet>(newBullet));
+	gameScene_->AddEnemyBullet(newBullet);
 }
 
 void Enemy::FireReset() {
@@ -103,10 +97,6 @@ void Enemy::FireReset() {
 
 void Enemy::Draw(ViewProjection viewProjection) {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
-	// 弾更新
-	for (std::unique_ptr<EnemyBullet>& bullet : bullets_) {
-		bullet->Draw(viewProjection);
-	}
 }
 
 void EnemyStateApproach::Initialize(Enemy* pEnemy) { 
@@ -133,19 +123,6 @@ void EnemyStateApproach::Update(Enemy* pEnemy) {
 	for (TimedCall* timedCall : pEnemy->GetTimedCall()) {
 		timedCall->Update();
 	}
-
-	//弾の発射
-	/*pEnemy->SetFireTimer(pEnemy->GetFireTimer() - 1);
-	if (pEnemy->GetFireTimer() < 0) {
-		pEnemy->Fire();
-		pEnemy->SetFireTimer(pEnemy->kFireInterval);
-	}*/
-
-	//弾更新
-	const std::list<std::unique_ptr<EnemyBullet>>& bullets = pEnemy->GetEnemyBullets();
-	for (const std::unique_ptr<EnemyBullet>& bullet : bullets) {
-		bullet->Update();
-	}
 }
 
 void EnemyStateLeave::Initialize(Enemy* pEnemy) { 
@@ -164,12 +141,6 @@ void EnemyStateLeave::Update(Enemy* pEnemy) {
 	move.z -= kEnemySpeed;
 	// 移動(ベクトルを加算)
 	pEnemy->EnemyMove(move);
-
-	// 弾更新
-	const std::list<std::unique_ptr<EnemyBullet>>& bullets = pEnemy->GetEnemyBullets();
-	for (const std::unique_ptr<EnemyBullet>& bullet : bullets) {
-		bullet->Update();
-	}
 }
 
 Vector3 Enemy::GetWorldPosition() {

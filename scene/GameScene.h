@@ -14,6 +14,7 @@
 #include "player/Player.h"
 #include "skydome/Skydome.h"
 #include "RailCamera/RailCamera.h"
+#include <sstream>
 
 /// <summary>
 /// ゲームシーン
@@ -46,6 +47,27 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 敵弾を追加する
+	/// </summary>
+	/// <param name="enemyBullet"></param>
+	void AddEnemyBullet(EnemyBullet* enemyBullet);
+
+	/// <summary>
+	/// 敵発生データの読み込み
+	/// </summary>
+	void LoadEnemyPopData();
+
+	/// <summary>
+	/// 敵発生コマンドの更新
+	/// </summary>
+	void UpdateEnemyPopCommands();
+
+	/// <summary>
+	/// 敵生成
+	/// </summary>
+	void AddEnemy(const Vector3& pos);
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -63,7 +85,9 @@ private: // メンバ変数
 	// デバッグカメラ
 	DebugCamera* debugCamera_ = nullptr;
 	// 敵
-	Enemy* enemy_ = nullptr;
+	std::list<Enemy*> enemys_;
+	//敵発生コマンド
+	std::stringstream enemyPopCommands;
 	// 衝突マネージャー
 	CollisionManager* collisionManager_ = nullptr;
 	// 3Dモデル
@@ -72,6 +96,11 @@ private: // メンバ変数
 	std::unique_ptr<Skydome> skydome_;
 	//RailCamera
 	RailCamera* railCamera_ = nullptr;
+	// 弾
+	std::list<std::unique_ptr<EnemyBullet>> enemyBullets_;
+	//待機中フラグ
+	bool waitingFlag;
+	uint32_t waitTimer;
 
 	/// <summary>
 	/// ゲームシーン用
