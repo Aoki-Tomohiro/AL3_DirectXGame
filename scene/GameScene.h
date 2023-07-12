@@ -5,6 +5,7 @@
 #include "DirectXCommon.h"
 #include "Input.h"
 #include "Model.h"
+#include "RailCamera/RailCamera.h"
 #include "SafeDelete.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
@@ -13,7 +14,6 @@
 #include "enemy/Enemy.h"
 #include "player/Player.h"
 #include "skydome/Skydome.h"
-#include "RailCamera/RailCamera.h"
 
 /// <summary>
 /// ゲームシーン
@@ -70,7 +70,7 @@ private: // メンバ変数
 	Model* modelSkydome_ = nullptr;
 	// skydome
 	std::unique_ptr<Skydome> skydome_;
-	//RailCamera
+	// RailCamera
 	RailCamera* railCamera_ = nullptr;
 	// スプライン曲線制御点(通過点)
 	std::vector<Vector3> controlPoints_;
