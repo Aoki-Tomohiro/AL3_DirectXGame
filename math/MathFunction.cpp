@@ -129,6 +129,15 @@ float Dot(const Vector3& v1, const Vector3& v2) {
 	return result;
 }
 
+// 外積
+Vector3 Cross(const Vector3& v1, const Vector3& v2) {
+	Vector3 result;
+	result.x = (v1.y * v2.z) - (v1.z * v2.y);
+	result.y = (v1.z * v2.x) - (v1.x * v2.z);
+	result.z = (v1.x * v2.y) - (v1.y * v2.x);
+	return result;
+}
+
 // 長さ
 float Length(const Vector3& v) {
 	float result;
@@ -373,23 +382,6 @@ Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t) {
 	return Normalize(result);
 }
 
-//Vector3 Catmull_Rom(std::vector<Vector3> points, float t) {
-//	Vector3 result;
-//	result.x =
-//	    0.5f * ((-points[0].x + 3 * points[1].x - 3 * points[2].x + points[3].x) * (t * t * t) +
-//	    (2 * points[0].x - 5 * points[1].x + 4 * points[2].x - points[3].x) * (t * t) +
-//	    (-points[0].x + points[2].x) * t + 2 * points[1].x);
-//	result.y =
-//	    0.5f * ((-points[0].y + 3 * points[1].y - 3 * points[2].y + points[3].y) * (t * t * t) +
-//	    (2 * points[0].y - 5 * points[1].y + 4 * points[2].y - points[3].y) * (t * t) +
-//	    (-points[0].y + points[2].y) * t + 2 * points[1].y);
-//	result.z =
-//	    0.5f * ((-points[0].z + 3 * points[1].z - 3 * points[2].z + points[3].z) * (t * t * t) +
-//	    (2 * points[0].z - 5 * points[1].z + 4 * points[2].z - points[3].z) * (t * t) +
-//	    (-points[0].z + points[2].z) * t + 2 * points[1].z);
-//	return result;
-//}
-
 Vector3 Catmull_Rom(std::vector<Vector3> points, float t) {
 	Vector3 result;
 	int p0, p1, p2, p3;
@@ -413,33 +405,6 @@ Vector3 Catmull_Rom(std::vector<Vector3> points, float t) {
 	            (-points[p0].z + points[p2].z) * t + 2 * points[p1].z);
 	return result;
 }
-
-//Vector3 Catmull_Rom(std::vector<Vector3> points, float t) {
-//	int p0, p1, p2, p3; 
-//	p1 = (int)t + 1;
-//	p2 = p1 + 1;
-//	p3 = p2 + 1;
-//	p0 = p1 - 1;
-//
-//	t = t - (int)t;
-//
-//	float tt = t * t;
-//	float ttt = tt * t;
-//
-//	float q1 = -ttt + 2.0f * tt - t;
-//	float q2 = 3.0f * ttt - 5.0f * tt + 2.0f;
-//	float q3 = -3.0f * ttt + 4.0f * tt + t;
-//	float q4 = ttt - tt;
-//
-//	float tx =
-//	    0.5f * (points[p0].x * q1 + points[p1].x * q2 + points[p2].x * q3 + points[p3].x * q4);
-//	float ty =
-//	    0.5f * (points[p0].y * q1 + points[p1].y * q2 + points[p2].y * q3 + points[p3].y * q4);
-//	float tz =
-//	    0.5f * (points[p0].z * q1 + points[p1].z * q2 + points[p2].z * q3 + points[p3].z * q4);
-//
-//	return {tx, ty, tz};
-//}
 
 Vector3 Catmull_Rom(Vector3& p0, Vector3& p1, Vector3& p2, Vector3& p3, float t) {
 	Vector3 result;

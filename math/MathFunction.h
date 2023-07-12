@@ -9,6 +9,7 @@ Vector3 Subtract(const Vector3& v1, const Vector3& v2);
 Matrix4x4 Inverse(const Matrix4x4& m);
 float Length(const Vector3& v);
 float Dot(const Vector3& v1, const Vector3& v2);
+Vector3 Cross(const Vector3& v1, const Vector3& v2);
 Vector3 Normalize(const Vector3& v);
 Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2);
 Matrix4x4 MakeRotateXMatrix(float radian);
