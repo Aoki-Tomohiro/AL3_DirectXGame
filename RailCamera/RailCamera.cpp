@@ -12,11 +12,13 @@ void RailCamera::Initialize(Vector3 translation, Vector3 rotation){
 
 void RailCamera::Update() { 
 	Vector3 move{0, 0, 0}; 
-	const float kCameraSpeed = 0.02f;
+	const float kCameraSpeed = 0.05f;
+	const float kRotSpeed = 0.002f;
 
 	// 行列の更新
 	move.z -= kCameraSpeed;
 	Move(worldTransform_.translation_, move);
+	worldTransform_.rotation_.y += kRotSpeed;
 	worldTransform_.matWorld_ = MakeAffineMatrix(
 	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 

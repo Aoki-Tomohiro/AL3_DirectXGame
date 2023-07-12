@@ -37,7 +37,7 @@ void GameScene::Initialize() {
 	// 自キャラとレールカメラの親子関係を結ぶ
 	player_->SetParent(&railCamera_->GetWorldTransform());
 	// 自キャラの初期化
-	Vector3 playerPositon = {0.0f, 0.0f, 50.0f};
+	Vector3 playerPositon = {0.0f, 0.0f, 30.0f};
 	player_->Initialize(model_, textureHandle_, playerPositon);
 	// デバッグカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
