@@ -15,7 +15,8 @@ void RailCamera::Update() {
 	const float kCameraSpeed = 0.02f;
 
 	// 行列の更新
-	move.z += kCameraSpeed;
+	move.z -= kCameraSpeed;
+	/*worldTransform_.rotation_.y -= 0.0002f;*/
 	Move(worldTransform_.translation_, move);
 	worldTransform_.matWorld_ = MakeAffineMatrix(
 	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);

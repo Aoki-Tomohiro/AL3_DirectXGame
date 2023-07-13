@@ -4,8 +4,8 @@
 #include "PlayerBullet.h"
 #include <list>
 #include "collider/Collider.h"
-
 #pragma once
+
 class Player : public Collider{
 public:
 	~Player();
@@ -16,6 +16,7 @@ public:
 	void Draw(ViewProjection viewProjection);
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() const { return bullets_; };
 	void SetParent(const WorldTransform* parent);
+	const WorldTransform& GetWorldTransform() { return worldTransform_; };
 
 private:
 	void Attack();
