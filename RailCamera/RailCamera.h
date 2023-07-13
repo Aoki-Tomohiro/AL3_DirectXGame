@@ -31,4 +31,10 @@ public:
 private:
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
+	// スプライン曲線制御点(通過点)
+	std::vector<Vector3> controlPoints_;
+	float eyet_ = 0.0f;
+	float targett_ = 0.2f;
+	/*uint32_t eyeSection = 0;
+	uint32_t targetSection = 0;*/
 };

@@ -38,7 +38,7 @@ void GameScene::Initialize() {
 	// 自キャラとレールカメラの親子関係を結ぶ
 	player_->SetParent(&railCamera_->GetWorldTransform());
 	// 自キャラの初期化
-	Vector3 playerPositon = {0.0f, 0.0f, 50.0f};
+	Vector3 playerPositon = {0.0f, 0.0f, 0.0f};
 	player_->Initialize(model_, textureHandle_, playerPositon);
 	// デバッグカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
@@ -59,16 +59,16 @@ void GameScene::Initialize() {
 	// skydome
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(modelSkydome_);
-	/*controlPoints_ = {
-	    {0,  0,  0},
-        {10, 10, 0},
-        {10, 15, 0},
-        {20, 15, 0},
-        {20, 0,  0},
-        {30, 0,  0},
-	};*/
 	controlPoints_ = {
 	    {0,  0,  0},
+        {10, 10, 0},
+        {10, 15, 0},
+        {20, 15, 0},
+        {20, 0,  0},
+        {30, 0,  0},
+	};
+	/*controlPoints_ = {
+	    {0,  0,  0},
 	    {0,  0,  0},
         {10, 10, 0},
         {10, 15, 0},
@@ -76,7 +76,7 @@ void GameScene::Initialize() {
         {20, 0,  0},
         {30, 0,  0},
         {30, 0,  0},
-	};
+	};*/
 	PrimitiveDrawer::GetInstance()->SetViewProjection(&viewProjection_);
 }
 
@@ -126,10 +126,10 @@ void GameScene::Update() {
 		}
 	}
 #endif
-
+	railCamera_->Update();
 	// レールカメラの処理
 	if (isDebugCameraActive_ == false) {
-		railCamera_->Update();
+		/*railCamera_->Update();*/
 		viewProjection_.matView = railCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
 		viewProjection_.TransferMatrix();
@@ -169,13 +169,13 @@ void GameScene::Draw() {
 	std::vector<Vector3> pointsDrawing;
 	// 線分の数
 	const size_t segmentCount = 100;
-	// 線分の数+1個分の頂点座標を計算
-	for (size_t i = 0; i < segmentCount + 1; i++) {
-		float t = 4.9f / segmentCount * i;
-		Vector3 pos = Catmull_Rom(controlPoints_, t);
-		// 描画用頂点リストに追加
-		pointsDrawing.push_back(pos);	
-	}
+	//// 線分の数+1個分の頂点座標を計算
+	//for (size_t i = 0; i < segmentCount + 1; i++) {
+	//	float t = 4.9f / segmentCount * i;
+	//	Vector3 pos = Catmull_Rom(controlPoints_, t);
+	//	// 描画用頂点リストに追加
+	//	pointsDrawing.push_back(pos);	
+	//}
 
 	//for (float t = 0.0f; t < (float)controlPoints_.size() - 3; t += 0.01f) {
 	//	Vector3 pos = Catmull_Rom(controlPoints_, t);
@@ -183,44 +183,44 @@ void GameScene::Draw() {
 	//	pointsDrawing.push_back(pos);
 	//}
 
-	//for (size_t i = 0; i < segmentCount + 1; i++) {
-	//	float t = 1.0f / segmentCount * i;
-	//	Vector3 pos = Catmull_Rom(controlPoints_[0],controlPoints_[0],controlPoints_[1],controlPoints_[2], t);
-	//	// 描画用頂点リストに追加
-	//	pointsDrawing.push_back(pos);
-	//}
+	for (size_t i = 0; i < segmentCount + 1; i++) {
+		float t = 1.0f / segmentCount * i;
+		Vector3 pos = Catmull_Rom(controlPoints_[0],controlPoints_[0],controlPoints_[1],controlPoints_[2], t);
+		// 描画用頂点リストに追加
+		pointsDrawing.push_back(pos);
+	}
 
-	//for (size_t i = 0; i < segmentCount + 1; i++) {
-	//	float t = 1.0f / segmentCount * i;
-	//	Vector3 pos = Catmull_Rom(
-	//	    controlPoints_[0], controlPoints_[1], controlPoints_[2], controlPoints_[3], t);
-	//	// 描画用頂点リストに追加
-	//	pointsDrawing.push_back(pos);
-	//}
+	for (size_t i = 0; i < segmentCount + 1; i++) {
+		float t = 1.0f / segmentCount * i;
+		Vector3 pos = Catmull_Rom(
+		    controlPoints_[0], controlPoints_[1], controlPoints_[2], controlPoints_[3], t);
+		// 描画用頂点リストに追加
+		pointsDrawing.push_back(pos);
+	}
 
-	//for (size_t i = 0; i < segmentCount + 1; i++) {
-	//	float t = 1.0f / segmentCount * i;
-	//	Vector3 pos = Catmull_Rom(
-	//	    controlPoints_[1], controlPoints_[2], controlPoints_[3], controlPoints_[4], t);
-	//	// 描画用頂点リストに追加
-	//	pointsDrawing.push_back(pos);
-	//}
+	for (size_t i = 0; i < segmentCount + 1; i++) {
+		float t = 1.0f / segmentCount * i;
+		Vector3 pos = Catmull_Rom(
+		    controlPoints_[1], controlPoints_[2], controlPoints_[3], controlPoints_[4], t);
+		// 描画用頂点リストに追加
+		pointsDrawing.push_back(pos);
+	}
 
-	//for (size_t i = 0; i < segmentCount + 1; i++) {
-	//	float t = 1.0f / segmentCount * i;
-	//	Vector3 pos = Catmull_Rom(
-	//	    controlPoints_[2], controlPoints_[3], controlPoints_[4], controlPoints_[5], t);
-	//	// 描画用頂点リストに追加
-	//	pointsDrawing.push_back(pos);
-	//}
+	for (size_t i = 0; i < segmentCount + 1; i++) {
+		float t = 1.0f / segmentCount * i;
+		Vector3 pos = Catmull_Rom(
+		    controlPoints_[2], controlPoints_[3], controlPoints_[4], controlPoints_[5], t);
+		// 描画用頂点リストに追加
+		pointsDrawing.push_back(pos);
+	}
 
-	//for (size_t i = 0; i < segmentCount + 1; i++) {
-	//	float t = 1.0f / segmentCount * i;
-	//	Vector3 pos = Catmull_Rom(
-	//	    controlPoints_[3], controlPoints_[4], controlPoints_[5], controlPoints_[5], t);
-	//	// 描画用頂点リストに追加
-	//	pointsDrawing.push_back(pos);
-	//}
+	for (size_t i = 0; i < segmentCount + 1; i++) {
+		float t = 1.0f / segmentCount * i;
+		Vector3 pos = Catmull_Rom(
+		    controlPoints_[3], controlPoints_[4], controlPoints_[5], controlPoints_[5], t);
+		// 描画用頂点リストに追加
+		pointsDrawing.push_back(pos);
+	}
 
 	for (size_t i = 0; i < pointsDrawing.size() - 1; i++) {
 		PrimitiveDrawer::GetInstance()->DrawLine3d(
