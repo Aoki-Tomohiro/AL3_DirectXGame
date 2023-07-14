@@ -19,6 +19,8 @@ public:
 	void SetParent(const WorldTransform* parent);
 	const WorldTransform& GetWorldTransform() { return worldTransform_; };
 	Vector3 Get3DReticleWorldPosition();
+	void Set3DReticlePosition(const ViewProjection& viewProjection);
+	void Set3DReticleMousePosition(const ViewProjection& viewProjection);
 	void DrawUI();
 
 private:
