@@ -20,6 +20,7 @@ public:
 	const WorldTransform& GetWorldTransform() { return worldTransform_; };
 	Vector3 Get3DReticleWorldPosition();
 	void DrawUI();
+	void Set3DReticlePosition(const ViewProjection& viewProjection);
 
 private:
 	void Attack();
