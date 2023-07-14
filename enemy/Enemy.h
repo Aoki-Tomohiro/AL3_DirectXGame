@@ -14,29 +14,6 @@ class GameScene;
 //Playerの前方宣言
 class Player;
 
-//class Enemy;
-//
-//class IEnemyState {
-//public:
-//	virtual void Initialize(Enemy* pEnemy) = 0;
-//	virtual void Update() = 0;
-//
-//protected:
-//	Enemy* enemy_ = nullptr;
-//};
-
-//class EnemyStateApproach : public IEnemyState {
-//public:
-//	void Initialize(Enemy* pEnemy);
-//	void Update();
-//};
-
-//class EnemyStateLeave : public IEnemyState {
-//public:
-//	void Initialize(Enemy* pEnemy);
-//	void Update();
-//};
-
 class Enemy : public Collider{
 public:
 	static const int kFireInterval = 60;

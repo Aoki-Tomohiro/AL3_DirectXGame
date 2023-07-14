@@ -93,52 +93,6 @@ void Enemy::Draw(ViewProjection viewProjection) {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 }
 
-//void EnemyStateApproach::Initialize(Enemy* pEnemy) { 
-//	enemy_ = pEnemy;
-//	enemy_->SetFireTimer(enemy_->kFireInterval);
-//	enemy_->FireReset();
-//}
-//
-//void EnemyStateApproach::Update() {
-//	// 移動ベクトル
-//	Vector3 move = {0, 0, 0};
-//	// キャラクターの移動速さ
-//	const float kEnemySpeed = 0.2f;
-//
-//	// 移動(ベクトルを加算)
-//	 move.z -= kEnemySpeed;
-//	// 座標移動(ベクトルの加算)
-//	 enemy_->EnemyMove(move);
-//	// 既定の位置に到達したら離脱
-//	if (enemy_->GetWorldTransform().translation_.z < 0.0f) {
-//		enemy_->ChangeState(new EnemyStateLeave());
-//	}
-//
-//	//範囲forでリストの全要素について回す
-//	for (TimedCall* timedCall : enemy_->GetTimedCall()) {
-//		timedCall->Update();
-//	}
-//}
-
-//void EnemyStateLeave::Initialize(Enemy* pEnemy) { 
-//	enemy_ = pEnemy;
-//	enemy_->SetFireTimer(enemy_->kFireInterval);
-//}
-//
-//void EnemyStateLeave::Update() {
-//	// 移動ベクトル
-//	Vector3 move = {0, 0, 0};
-//	// キャラクターの移動速さ
-//	const float kEnemySpeed = 0.2f;
-//
-//	// 移動(ベクトルを加算)
-//	move.x -= kEnemySpeed;
-//	move.y += kEnemySpeed;
-//	move.z -= kEnemySpeed;
-//	// 移動(ベクトルを加算)
-//	enemy_->EnemyMove(move);
-//}
-
 Vector3 Enemy::GetWorldPosition() {
 	// ワールド座標を入れる変数
 	Vector3 worldPos;
