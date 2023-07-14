@@ -57,7 +57,7 @@ void EnemyBullet::Update() {
 		worldTransform_.rotation_.x = std::atan2(-velocity_.y, length);
 	}
 
-	Move(worldTransform_.translation_, velocity_);
+	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
 	worldTransform_.UpdateMatrix();
 }
 

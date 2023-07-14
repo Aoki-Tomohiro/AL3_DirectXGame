@@ -101,6 +101,8 @@ private: // メンバ変数
 	//待機中フラグ
 	bool waitingFlag;
 	uint32_t waitTimer;
+	//レティクル用テクスチャ
+	uint32_t textureReticle_ = 0;
 
 	/// <summary>
 	/// ゲームシーン用

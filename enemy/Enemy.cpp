@@ -39,7 +39,7 @@ void Enemy::ChangeState(BaseEnemyState* newState) {
 }
 
 void Enemy::EnemyMove(Vector3 move) {
-	Move(worldTransform_.translation_, move);
+	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 }
 
 void Enemy::OnCollision(){ 
