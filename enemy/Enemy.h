@@ -5,37 +5,37 @@
 #include "TimeCall.h"
 #include <stdio.h>
 #include "collider/Collider.h"
+#include "IEnemyState.h"
+#include "EnemyStateApproach.h"
+#include "EnemyStateLeave.h"
 
 //GameSceneの前方宣言(苦肉の策)
 class GameScene;
 //Playerの前方宣言
 class Player;
 
-enum class Phase
-{
-	Approach,//接近する
-	Leave,//離脱する
-};
+//class Enemy;
+//
+//class IEnemyState {
+//public:
+//	virtual void Initialize(Enemy* pEnemy) = 0;
+//	virtual void Update() = 0;
+//
+//protected:
+//	Enemy* enemy_ = nullptr;
+//};
 
-class Enemy;
+//class EnemyStateApproach : public IEnemyState {
+//public:
+//	void Initialize(Enemy* pEnemy);
+//	void Update();
+//};
 
-class BaseEnemyState {
-public:
-	virtual void Initialize(Enemy* pEnemy) = 0;
-	virtual void Update(Enemy* pEnemy) = 0;
-};
-
-class EnemyStateApproach : public BaseEnemyState {
-public:
-	void Initialize(Enemy* pEnemy);
-	void Update(Enemy* pEnemy);
-};
-
-class EnemyStateLeave : public BaseEnemyState {
-public:
-	void Initialize(Enemy* pEnemy);
-	void Update(Enemy* pEnemy);
-};
+//class EnemyStateLeave : public IEnemyState {
+//public:
+//	void Initialize(Enemy* pEnemy);
+//	void Update();
+//};
 
 class Enemy : public Collider{
 public:
@@ -48,8 +48,7 @@ public:
 	void Fire();
 	void FireReset();
 	void Draw(ViewProjection viewProjection);
-	void ChangeState(BaseEnemyState* newState);
-	float GetEnemySpeed() { return enemySpeed_; };
+	void ChangeState(IEnemyState* newState);
 	WorldTransform GetWorldTransform() { return worldTransform_; };
 	void EnemyMove(Vector3 move);
 	int32_t GetFireTimer() { return fireTimer_; };
@@ -66,15 +65,8 @@ private:
 	Model* model_ = nullptr;
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
-	//フェーズ
-	Phase phase_ = Phase::Approach;
-	//敵の速度
-	float enemySpeed_ = 0.0f;
-	//txtファイル
-	FILE* fp;
-	errno_t err_;
 	//statePattern
-	BaseEnemyState* state_;
+	IEnemyState* state_;
 	////弾
 	//発射タイマー
 	int32_t fireTimer_ = kFireInterval;

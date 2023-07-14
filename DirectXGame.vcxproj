@@ -113,6 +113,8 @@
     <ClCompile Include="collider\CollisionManager.cpp" />
     <ClCompile Include="enemy\Enemy.cpp" />
     <ClCompile Include="enemy\EnemyBullet.cpp" />
+    <ClCompile Include="enemy\EnemyStateApproach.cpp" />
+    <ClCompile Include="enemy\EnemyStateLeave.cpp" />
     <ClCompile Include="enemy\TimeCall.cpp" />
     <ClCompile Include="math\MathFunction.cpp" />
     <ClCompile Include="main.cpp" />
@@ -150,6 +152,9 @@
     <ClInclude Include="collider\CollisionManager.h" />
     <ClInclude Include="enemy\Enemy.h" />
     <ClInclude Include="enemy\EnemyBullet.h" />
+    <ClInclude Include="enemy\EnemyStateApproach.h" />
+    <ClInclude Include="enemy\EnemyStateLeave.h" />
+    <ClInclude Include="enemy\IEnemyState.h" />
     <ClInclude Include="enemy\TimeCall.h" />
     <ClInclude Include="math\MathFunction.h" />
     <ClInclude Include="input\Input.h" />

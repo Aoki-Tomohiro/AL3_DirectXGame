@@ -132,6 +132,12 @@
     <ClCompile Include="RailCamera\RailCamera.cpp">
       <Filter>ソース ファイル\railcamera</Filter>
     </ClCompile>
+    <ClCompile Include="enemy\EnemyStateApproach.cpp">
+      <Filter>ソース ファイル\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy\EnemyStateLeave.cpp">
+      <Filter>ソース ファイル\enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -250,6 +256,15 @@
     </ClInclude>
     <ClInclude Include="RailCamera\RailCamera.h">
       <Filter>ヘッダー ファイル\railcamera</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy\IEnemyState.h">
+      <Filter>ヘッダー ファイル\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy\EnemyStateApproach.h">
+      <Filter>ヘッダー ファイル\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy\EnemyStateLeave.h">
+      <Filter>ヘッダー ファイル\enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

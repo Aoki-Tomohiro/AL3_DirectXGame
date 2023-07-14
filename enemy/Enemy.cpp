@@ -18,13 +18,6 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle,const Vector3& pos) 
 	textureHandle_ = textureHandle;
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = pos;
-	char fname[] = "enemy/enemySpeed.txt";
-	err_ = fopen_s(&fp, fname, "r");
-	if (fp != 0  && err_ == 0)
-	{
-		fscanf_s(fp, "%f", &enemySpeed_);
-		fclose(fp);
-	}
 	state_ = new EnemyStateApproach();
 	state_->Initialize(this);
 	// 衝突属性を設定
@@ -34,7 +27,8 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle,const Vector3& pos) 
 	SetRadius(1.0f);
 }
 
-void Enemy::ChangeState(BaseEnemyState* newState) { 
+void Enemy::ChangeState(IEnemyState* newState) { 
+	state_ = nullptr;
 	state_ = newState;
 }
 
@@ -99,49 +93,51 @@ void Enemy::Draw(ViewProjection viewProjection) {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 }
 
-void EnemyStateApproach::Initialize(Enemy* pEnemy) { 
-	pEnemy->SetFireTimer(pEnemy->kFireInterval);
-	pEnemy->FireReset();
-}
+//void EnemyStateApproach::Initialize(Enemy* pEnemy) { 
+//	enemy_ = pEnemy;
+//	enemy_->SetFireTimer(enemy_->kFireInterval);
+//	enemy_->FireReset();
+//}
+//
+//void EnemyStateApproach::Update() {
+//	// 移動ベクトル
+//	Vector3 move = {0, 0, 0};
+//	// キャラクターの移動速さ
+//	const float kEnemySpeed = 0.2f;
+//
+//	// 移動(ベクトルを加算)
+//	 move.z -= kEnemySpeed;
+//	// 座標移動(ベクトルの加算)
+//	 enemy_->EnemyMove(move);
+//	// 既定の位置に到達したら離脱
+//	if (enemy_->GetWorldTransform().translation_.z < 0.0f) {
+//		enemy_->ChangeState(new EnemyStateLeave());
+//	}
+//
+//	//範囲forでリストの全要素について回す
+//	for (TimedCall* timedCall : enemy_->GetTimedCall()) {
+//		timedCall->Update();
+//	}
+//}
 
-void EnemyStateApproach::Update(Enemy* pEnemy) {
-	// 移動ベクトル
-	Vector3 move = {0, 0, 0};
-	// キャラクターの移動速さ
-	 const float kEnemySpeed = pEnemy->GetEnemySpeed();
-
-	// 移動(ベクトルを加算)
-	 move.z -= kEnemySpeed;
-	// 座標移動(ベクトルの加算)
-	 pEnemy->EnemyMove(move);
-	// 既定の位置に到達したら離脱
-	if (pEnemy->GetWorldTransform().translation_.z < 0.0f) {
-		pEnemy->ChangeState(new EnemyStateLeave());
-	}
-
-	//範囲forでリストの全要素について回す
-	for (TimedCall* timedCall : pEnemy->GetTimedCall()) {
-		timedCall->Update();
-	}
-}
-
-void EnemyStateLeave::Initialize(Enemy* pEnemy) { 
-	pEnemy->SetFireTimer(pEnemy->kFireInterval);
-}
-
-void EnemyStateLeave::Update(Enemy* pEnemy) {
-	// 移動ベクトル
-	Vector3 move = {0, 0, 0};
-	// キャラクターの移動速さ
-	const float kEnemySpeed = pEnemy->GetEnemySpeed();
-
-	// 移動(ベクトルを加算)
-	move.x -= kEnemySpeed;
-	move.y += kEnemySpeed;
-	move.z -= kEnemySpeed;
-	// 移動(ベクトルを加算)
-	pEnemy->EnemyMove(move);
-}
+//void EnemyStateLeave::Initialize(Enemy* pEnemy) { 
+//	enemy_ = pEnemy;
+//	enemy_->SetFireTimer(enemy_->kFireInterval);
+//}
+//
+//void EnemyStateLeave::Update() {
+//	// 移動ベクトル
+//	Vector3 move = {0, 0, 0};
+//	// キャラクターの移動速さ
+//	const float kEnemySpeed = 0.2f;
+//
+//	// 移動(ベクトルを加算)
+//	move.x -= kEnemySpeed;
+//	move.y += kEnemySpeed;
+//	move.z -= kEnemySpeed;
+//	// 移動(ベクトルを加算)
+//	enemy_->EnemyMove(move);
+//}
 
 Vector3 Enemy::GetWorldPosition() {
 	// ワールド座標を入れる変数
