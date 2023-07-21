@@ -8,7 +8,11 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "DebugCamera.h"
+#include "AxisIndicator.h"
 #include "Player/Player.h"
+#include "Skydome/Skydome.h"
+#include "Ground/Ground.h"
 #include <memory>
 
 /// <summary>
@@ -52,8 +56,18 @@ private: // メンバ変数
 	std::unique_ptr<Model> model_ = nullptr;
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
+	//デバッグカメラ
+	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
+	//デバッグカメラ有効
+	bool isDebugCameraActive_ = false;
 	//自キャラ
 	std::unique_ptr<Player> player_ = nullptr;
+	//天球
+	std::unique_ptr<Model> modelSkydome_ = nullptr;
+	std::unique_ptr<Skydome> skydome_ = nullptr;
+	//地面
+	std::unique_ptr<Model> modelGround_ = nullptr;
+	std::unique_ptr<Ground> ground_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用
