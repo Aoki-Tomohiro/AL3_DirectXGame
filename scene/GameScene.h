@@ -13,6 +13,7 @@
 #include "Player/Player.h"
 #include "Skydome/Skydome.h"
 #include "Ground/Ground.h"
+#include "FollowCamera/FollowCamera.h"
 #include <memory>
 
 /// <summary>
@@ -68,6 +69,8 @@ private: // メンバ変数
 	//地面
 	std::unique_ptr<Model> modelGround_ = nullptr;
 	std::unique_ptr<Ground> ground_ = nullptr;
+	//追従カメラ
+	std::unique_ptr<FollowCamera> followCamera_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用

@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "TextureManager.h"
+#include "ImGuiManager.h"
 #include <cassert>
 
 GameScene::GameScene() {}
@@ -14,7 +15,7 @@ void GameScene::Initialize() {
 	//ファイルを指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("sample.png");
 	//3Dモデル生成
-	model_.reset(Model::Create());
+	model_.reset(Model::CreateFromOBJ("Player", true));
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 	//デバッグカメラの生成
@@ -26,7 +27,7 @@ void GameScene::Initialize() {
 	//自キャラの生成
 	player_ = std::make_unique<Player>();
 	//自キャラの初期化
-	player_->Initialize(model_.get(), textureHandle_);
+	player_->Initialize(model_.get());
 	//天球の3Dモデル生成
 	modelSkydome_.reset(Model::CreateFromOBJ("Skydome", true));
 	//天球の生成
@@ -39,6 +40,14 @@ void GameScene::Initialize() {
 	ground_ = std::make_unique<Ground>();
 	//地面の初期化
 	ground_->Initialize(modelGround_.get());
+	//追従カメラの作成
+	followCamera_ = std::make_unique<FollowCamera>();
+	//追従カメラの初期化
+	followCamera_->Initialize();
+	//自キャラのワールドトランスフォームを追従カメラにセット
+	followCamera_->SetTarget(&player_->GetWorldTransform());
+	//追従カメラのビュープロジェクションを自キャラにセット
+	player_->SetViewProjection(&followCamera_->GetViewProjection());
 }
 
 void GameScene::Update() {
@@ -48,12 +57,23 @@ void GameScene::Update() {
 	skydome_->Update();
 	//地面の更新
 	ground_->Update();
+	//追従カメラの更新
+	followCamera_->Update();
+	// 追従カメラのビュー行列をゲームシーンのビュープロジェクションにコピー
+	viewProjection_.matView = followCamera_->GetViewProjection().matView;
+	// 追従カメラのプロジェクション行列をゲームシーンのビュープロジェクションにコピー
+	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
 
-	#ifdef _DEBUG
+#ifdef _DEBUG
+	//デバッグカメラの切り替え
 	if (input_->TriggerKey(DIK_1)) {
-		isDebugCameraActive_ = true;
+		if (isDebugCameraActive_) {
+			isDebugCameraActive_ = false;
+		} else {
+			isDebugCameraActive_ = true;
+		}
 	}
-	#endif
+#endif
 
 	//カメラの処理
 	if (isDebugCameraActive_) {
@@ -64,9 +84,13 @@ void GameScene::Update() {
 		//ビュープロジェクション行列の転送
 		viewProjection_.TransferMatrix();
 	} else {
-		//ビュープロジェクション行列の更新と転送
-		viewProjection_.UpdateMatrix();
+		// ビュープロジェクション行列の転送
+		viewProjection_.TransferMatrix();
 	}
+
+	ImGui::Begin(" ");
+	ImGui::Text("1 : DebugCamera");
+	ImGui::End();
 }
 
 void GameScene::Draw() {
