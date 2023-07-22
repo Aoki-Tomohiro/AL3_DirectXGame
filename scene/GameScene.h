@@ -52,8 +52,6 @@ private: // メンバ変数
 	Audio* audio_ = nullptr;
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;
-	//3Dモデルデータ
-	std::unique_ptr<Model> model_ = nullptr;
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
 	//デバッグカメラ
@@ -61,6 +59,7 @@ private: // メンバ変数
 	//デバッグカメラ有効
 	bool isDebugCameraActive_ = false;
 	//自キャラ
+	std::unique_ptr<Model> modelPlayer_ = nullptr;
 	std::unique_ptr<Player> player_ = nullptr;
 	//天球
 	std::unique_ptr<Model> modelSkydome_ = nullptr;

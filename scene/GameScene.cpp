@@ -11,10 +11,6 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
-	//ファイルを指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("sample.png");
-	//3Dモデル生成
-	model_.reset(Model::Create());
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 	//デバッグカメラの生成
@@ -23,10 +19,12 @@ void GameScene::Initialize() {
 	AxisIndicator::GetInstance()->SetVisible(true);
 	//軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
+	//自キャラの3Dモデル生成
+	modelPlayer_.reset(Model::CreateFromOBJ("Player", true));
 	//自キャラの生成
 	player_ = std::make_unique<Player>();
 	//自キャラの初期化
-	player_->Initialize(model_.get(), textureHandle_);
+	player_->Initialize(modelPlayer_.get());
 	//天球の3Dモデル生成
 	modelSkydome_.reset(Model::CreateFromOBJ("Skydome", true));
 	//天球の生成

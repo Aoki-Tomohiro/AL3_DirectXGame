@@ -12,7 +12,7 @@ public:
 	/// </summary>
 	/// <param name="model"></param>
 	/// <param name="textureHandle"></param>
-	void Initialize(Model* model,uint32_t textureHandle);
+	void Initialize(Model* model);
 
 	/// <summary>
 	/// 更新
@@ -30,6 +30,4 @@ public:
 	WorldTransform worldTransform_;
 	//モデル
 	Model* model_ = nullptr;
-	//テクスチャハンドル
-	uint32_t textureHandle_ = 0u;
 };

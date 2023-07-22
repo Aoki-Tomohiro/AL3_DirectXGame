@@ -2,11 +2,10 @@
 #include "math/MathFunction.h"
 #include <cassert>
 
-void Player::Initialize(Model* model, uint32_t textureHandle) {
+void Player::Initialize(Model* model) {
 	//NULLポインタチェック
 	assert(model);
 	model_ = model;
-	textureHandle_ = textureHandle;
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 }
@@ -17,5 +16,5 @@ void Player::Update() {
 }
 
 void Player::Draw(ViewProjection& viewProjection) {
-	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+	model_->Draw(worldTransform_, viewProjection);
 }
