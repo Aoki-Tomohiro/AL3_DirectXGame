@@ -21,11 +21,14 @@ void GameScene::Initialize() {
 	//軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 	//自キャラの3Dモデル生成
-	modelPlayer_.reset(Model::CreateFromOBJ("Player", true));
+	modelFighterBody_.reset(Model::CreateFromOBJ("Player_Body", true));
+	modelFighterL_arm_.reset(Model::CreateFromOBJ("Player_L_arm", true));
+	modelFighterR_arm_.reset(Model::CreateFromOBJ("Player_R_arm", true));
 	//自キャラの生成
 	player_ = std::make_unique<Player>();
 	//自キャラの初期化
-	player_->Initialize(modelPlayer_.get());
+	player_->Initialize(
+	    modelFighterBody_.get(), modelFighterL_arm_.get(), modelFighterR_arm_.get());
 	//天球の3Dモデル生成
 	modelSkydome_.reset(Model::CreateFromOBJ("Skydome", true));
 	//天球の生成

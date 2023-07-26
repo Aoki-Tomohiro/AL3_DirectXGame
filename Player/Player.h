@@ -13,7 +13,7 @@ public:
 	/// </summary>
 	/// <param name="model"></param>
 	/// <param name="textureHandle"></param>
-	void Initialize(Model* model);
+	void Initialize(Model* modelBody, Model* modelL_arm, Model* modelR_arm);
 
 	/// <summary>
 	/// 更新
@@ -27,10 +27,20 @@ public:
 	void Draw(ViewProjection& viewProjection);
 
 	/// <summary>
+	/// 浮遊ギミックの初期化
+	/// </summary>
+	void InitializeFloatingGimmick();
+
+	/// <summary>
+	/// 浮遊ギミック更新
+	/// </summary>
+	void UpdateFloatingGimmick();
+
+	/// <summary>
 	/// ワールドトランスフォームを取得
 	/// </summary>
 	/// <returns></returns>
-	const WorldTransform& GetWorldTransform() { return worldTransform_; };
+	const WorldTransform& GetWorldTransform() { return worldTransformBody_; };
 
 	/// <summary>
 	/// ビュープロジェクションをセット
@@ -42,9 +52,18 @@ public:
 
 public:
 	//ワールドトランスフォーム
-	WorldTransform worldTransform_;
+	WorldTransform worldTransformBase_;
+	WorldTransform worldTransformBody_;
+	WorldTransform worldTransformL_arm_;
+	WorldTransform worldTransformR_arm_;
 	//モデル
-	Model* model_ = nullptr;
+	Model* modelBody_ = nullptr;
+	Model* modelL_arm_ = nullptr;
+	Model* modelR_arm_ = nullptr;
 	//カメラのビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
+	//浮遊ギミックの媒介変数
+	float floatingParameter_ = 0.0f;
+	uint16_t cycle_ = 60;
+	float magnitude_ = 0.1f;
 };

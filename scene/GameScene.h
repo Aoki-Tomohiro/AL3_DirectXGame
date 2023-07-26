@@ -58,7 +58,9 @@ private: // メンバ変数
 	//デバッグカメラ有効
 	bool isDebugCameraActive_ = false;
 	//自キャラ
-	std::unique_ptr<Model> modelPlayer_ = nullptr;
+	std::unique_ptr<Model> modelFighterBody_ = nullptr;
+	std::unique_ptr<Model> modelFighterL_arm_ = nullptr;
+	std::unique_ptr<Model> modelFighterR_arm_ = nullptr;
 	std::unique_ptr<Player> player_ = nullptr;
 	//天球
 	std::unique_ptr<Model> modelSkydome_ = nullptr;
