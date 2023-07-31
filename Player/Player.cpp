@@ -75,7 +75,7 @@ void Player::Update() {
 	ImGui::DragFloat3("ArmR Translation", &worldTransformR_arm_.translation_.x, 0.01f);
 	ImGui::DragFloat3("ArmR Rotation", &worldTransformR_arm_.rotation_.x, 0.01f);
 	ImGui::DragInt("cycle", reinterpret_cast<int*>(&cycle_), 1);
-	ImGui::DragFloat("magnitude", &amplitude_, 0.01f);
+	ImGui::DragFloat("amplitude", &amplitude_, 0.01f);
 	ImGui::Text("Lstick : move");
 	ImGui::End();
 }
