@@ -75,7 +75,7 @@ void Player::Update() {
 	ImGui::DragFloat3("ArmR Translation", &worldTransformR_arm_.translation_.x, 0.01f);
 	ImGui::DragFloat3("ArmR Rotation", &worldTransformR_arm_.rotation_.x, 0.01f);
 	ImGui::DragInt("cycle", reinterpret_cast<int*>(&cycle_), 1);
-	ImGui::DragFloat("magnitude", &magnitude_, 0.01f);
+	ImGui::DragFloat("magnitude", &amplitude_, 0.01f);
 	ImGui::Text("Lstick : move");
 	ImGui::End();
 }
@@ -87,21 +87,23 @@ void Player::Draw(ViewProjection& viewProjection) {
 }
 
 void Player::InitializeFloatingGimmick() { 
+	// 浮遊ギミックの媒介変数の初期化
 	floatingParameter_ = 0.0f;
-
+	// 浮遊移動のサイクルの初期化
+    cycle_ = 60;
+	// 浮遊の振動の初期化
+	amplitude_ = 0.1f;
 }
 
 void Player::UpdateFloatingGimmick() {
-	//浮遊移動のサイクル<frame>
-	uint16_t cycle = cycle_;
 	//1フレームでのパラメータ加算値
-	const float step = 2.0f * 3.14f / cycle;
+	const float step = 2.0f * 3.14f / cycle_;
 	//パラメータを１ステップ分加算
 	floatingParameter_ += step;
 	//2πを超えたら０に戻す
 	floatingParameter_ = std::fmod(floatingParameter_, 2.0f * 3.14f);
-	//浮遊の振動<m>
-	float magnitude = magnitude_;
 	//浮遊を座標に反映
-	worldTransformBody_.translation_.y = std::sin(floatingParameter_) * magnitude;
+	worldTransformBody_.translation_.y = std::sin(floatingParameter_) * amplitude_;
+	worldTransformL_arm_.rotation_.y = std::sin(floatingParameter_) * amplitude_;
+	worldTransformR_arm_.rotation_.y = -std::sin(floatingParameter_) * amplitude_;
 }

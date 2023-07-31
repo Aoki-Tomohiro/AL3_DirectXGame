@@ -40,7 +40,7 @@ public:
 	/// ワールドトランスフォームを取得
 	/// </summary>
 	/// <returns></returns>
-	const WorldTransform& GetWorldTransform() { return worldTransformBody_; };
+	const WorldTransform& GetWorldTransform() { return worldTransformBase_; };
 
 	/// <summary>
 	/// ビュープロジェクションをセット
@@ -64,6 +64,8 @@ public:
 	const ViewProjection* viewProjection_ = nullptr;
 	//浮遊ギミックの媒介変数
 	float floatingParameter_ = 0.0f;
+	//浮遊移動のサイクル<frame>
 	uint16_t cycle_ = 60;
-	float magnitude_ = 0.1f;
+	//浮遊の振動<m>
+	float amplitude_ = 0.1f;
 };
