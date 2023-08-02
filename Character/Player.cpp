@@ -3,16 +3,10 @@
 #include "ImGuiManager.h"
 #include <cassert>
 
-void Player::Initialize(Model* modelBody, Model* modelL_arm, Model* modelR_arm) {
-	//NULLポインタチェック
-	assert(modelBody);
-	assert(modelL_arm);
-	assert(modelR_arm);
-	modelBody_ = modelBody;
-	modelL_arm_ = modelL_arm;
-	modelR_arm_ = modelR_arm;
+void Player::Initialize(const std::vector<Model*>& models) {
+	//基底クラスの初期化
+	BaseCharacter::Initialize(models);
 	//ワールドトランスフォームの初期化
-	worldTransformBase_.Initialize();
 	worldTransformBody_.Initialize();
 	worldTransformL_arm_.Initialize();
 	worldTransformL_arm_.translation_.x = 0.8f;
@@ -21,7 +15,7 @@ void Player::Initialize(Model* modelBody, Model* modelL_arm, Model* modelR_arm) 
 	worldTransformR_arm_.translation_.x = -0.8f;
 	worldTransformR_arm_.translation_.y = 1.0f;
 	//親子関係
-	worldTransformBody_.parent_ = &worldTransformBase_;
+	worldTransformBody_.parent_ = &worldTransform_;
 	worldTransformL_arm_.parent_ = &worldTransformBody_;
 	worldTransformR_arm_.parent_ = &worldTransformBody_;
 	//浮遊ギミックの初期化
@@ -50,24 +44,24 @@ void Player::Update() {
 		move = TransformNormal(move, rotateMatrix);
 
 		// 移動方向に見た目を合わせる
-		worldTransformBase_.rotation_.y = std::atan2(move.x, move.z);
+		worldTransform_.rotation_.y = std::atan2(move.x, move.z);
 
 		// 移動
-		worldTransformBase_.translation_ = Add(worldTransformBase_.translation_, move);
+		worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 	}
 
 	//浮遊ギミックの更新
 	UpdateFloatingGimmick();
 
 	//行列の更新
-	worldTransformBase_.UpdateMatrix(); 
+	BaseCharacter::Update();
 	worldTransformBody_.UpdateMatrix(); 
 	worldTransformL_arm_.UpdateMatrix(); 
 	worldTransformR_arm_.UpdateMatrix(); 
 
 	ImGui::Begin(" ");
-	ImGui::DragFloat3("Base Translation", &worldTransformBase_.translation_.x, 0.01f);
-	ImGui::DragFloat3("Base Rotation", &worldTransformBase_.rotation_.x, 0.01f);
+	ImGui::DragFloat3("Base Translation", &worldTransform_.translation_.x, 0.01f);
+	ImGui::DragFloat3("Base Rotation", &worldTransform_.rotation_.x, 0.01f);
 	ImGui::DragFloat3("Body Translation", &worldTransformBody_.translation_.x, 0.01f);
 	ImGui::DragFloat3("Body Rotation", &worldTransformBody_.rotation_.x, 0.01f);
 	ImGui::DragFloat3("ArmL Translation", &worldTransformL_arm_.translation_.x, 0.01f);
@@ -80,10 +74,11 @@ void Player::Update() {
 	ImGui::End();
 }
 
-void Player::Draw(ViewProjection& viewProjection) {
-	modelBody_->Draw(worldTransformBody_, viewProjection);
-	modelL_arm_->Draw(worldTransformL_arm_, viewProjection);
-	modelR_arm_->Draw(worldTransformR_arm_, viewProjection);
+void Player::Draw(const ViewProjection& viewProjection) {
+	//3Dモデルを描画
+	models_[0]->Draw(worldTransformBody_, viewProjection);
+	models_[1]->Draw(worldTransformL_arm_, viewProjection);
+	models_[2]->Draw(worldTransformR_arm_, viewProjection);
 }
 
 void Player::InitializeFloatingGimmick() { 

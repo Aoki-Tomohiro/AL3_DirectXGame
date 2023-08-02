@@ -10,7 +10,8 @@
 #include "WorldTransform.h"
 #include "DebugCamera.h"
 #include "AxisIndicator.h"
-#include "Player/Player.h"
+#include "Character/Player.h"
+#include "Character/Enemy.h"
 #include "Skydome/Skydome.h"
 #include "Ground/Ground.h"
 #include "FollowCamera/FollowCamera.h"
@@ -62,6 +63,8 @@ private: // メンバ変数
 	std::unique_ptr<Model> modelFighterL_arm_ = nullptr;
 	std::unique_ptr<Model> modelFighterR_arm_ = nullptr;
 	std::unique_ptr<Player> player_ = nullptr;
+	//敵キャラ
+	std::unique_ptr<Enemy> enemy_ = nullptr;
 	//天球
 	std::unique_ptr<Model> modelSkydome_ = nullptr;
 	std::unique_ptr<Skydome> skydome_ = nullptr;

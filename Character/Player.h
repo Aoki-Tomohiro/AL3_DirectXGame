@@ -1,30 +1,29 @@
 #pragma once
-#include "Model.h"
-#include "WorldTransform.h"
+#include "BaseCharacter.h"
 #include "Input.h"
 
 /// <summary>
 /// 自キャラ
 /// </summary>
-class Player {
+class Player : public BaseCharacter {
 public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
 	/// <param name="model"></param>
 	/// <param name="textureHandle"></param>
-	void Initialize(Model* modelBody, Model* modelL_arm, Model* modelR_arm);
+	void Initialize(const std::vector<Model*>& models) override;
 
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	void Update() override;
 
 	/// <summary>
 	/// 描画
 	/// </summary>
 	/// <param name="viewProjection"></param>
-	void Draw(ViewProjection& viewProjection);
+	void Draw(const ViewProjection& viewProjection) override;
 
 	/// <summary>
 	/// 浮遊ギミックの初期化
@@ -37,12 +36,6 @@ public:
 	void UpdateFloatingGimmick();
 
 	/// <summary>
-	/// ワールドトランスフォームを取得
-	/// </summary>
-	/// <returns></returns>
-	const WorldTransform& GetWorldTransform() { return worldTransformBase_; };
-
-	/// <summary>
 	/// ビュープロジェクションをセット
 	/// </summary>
 	/// <param name="viewProjection"></param>
@@ -52,14 +45,9 @@ public:
 
 public:
 	//ワールドトランスフォーム
-	WorldTransform worldTransformBase_;
 	WorldTransform worldTransformBody_;
 	WorldTransform worldTransformL_arm_;
 	WorldTransform worldTransformR_arm_;
-	//モデル
-	Model* modelBody_ = nullptr;
-	Model* modelL_arm_ = nullptr;
-	Model* modelR_arm_ = nullptr;
 	//カメラのビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
 	//浮遊ギミックの媒介変数

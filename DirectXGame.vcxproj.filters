@@ -43,12 +43,6 @@
     <Filter Include="ヘッダー ファイル\input">
       <UniqueIdentifier>{d461f61e-3cc4-4b11-b521-37a61c927ae5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\math">
-      <UniqueIdentifier>{4c21a99e-f783-4367-bdcb-0ebd1d434719}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\math">
-      <UniqueIdentifier>{647f4977-924a-4954-923f-5619e5afc9a3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\2d">
       <UniqueIdentifier>{814a0f6d-f847-4c45-856d-4688fa4c9e6c}</UniqueIdentifier>
     </Filter>
@@ -61,9 +55,6 @@
     <Filter Include="ソース ファイル\Ground">
       <UniqueIdentifier>{8b3fca9e-8b6d-4505-a8fa-a45e2ffc75a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Player">
-      <UniqueIdentifier>{1c7cefc7-f048-44bf-8edf-196a91d1706c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Skydome">
       <UniqueIdentifier>{35a37881-c911-41ce-851d-2caa4e26c839}</UniqueIdentifier>
     </Filter>
@@ -73,11 +64,20 @@
     <Filter Include="ヘッダー ファイル\Ground">
       <UniqueIdentifier>{a6092dee-6872-4373-9ab3-7fd8b3e16675}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Player">
-      <UniqueIdentifier>{3f0fabfc-ec42-4d4a-ab90-cdcc89df2550}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Skydome">
       <UniqueIdentifier>{61a52f81-d720-42be-bad4-186ff86448c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Character">
+      <UniqueIdentifier>{59f7ca05-b5ee-4fb8-9a4b-8a1f7e726c63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Character">
+      <UniqueIdentifier>{ebd70028-146e-4b2b-bd51-0006de8a615b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\math">
+      <UniqueIdentifier>{647f4977-924a-4954-923f-5619e5afc9a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\math">
+      <UniqueIdentifier>{4c21a99e-f783-4367-bdcb-0ebd1d434719}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -105,14 +105,20 @@
     <ClCompile Include="Ground\Ground.cpp">
       <Filter>ソース ファイル\Ground</Filter>
     </ClCompile>
-    <ClCompile Include="Player\Player.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
     <ClCompile Include="math\MathFunction.cpp">
       <Filter>ソース ファイル\math</Filter>
     </ClCompile>
     <ClCompile Include="Skydome\Skydome.cpp">
       <Filter>ソース ファイル\Skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="Character\BaseCharacter.cpp">
+      <Filter>ソース ファイル\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Character\Enemy.cpp">
+      <Filter>ソース ファイル\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Character\Player.cpp">
+      <Filter>ソース ファイル\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -206,14 +212,20 @@
     <ClInclude Include="Ground\Ground.h">
       <Filter>ヘッダー ファイル\Ground</Filter>
     </ClInclude>
-    <ClInclude Include="Player\Player.h">
-      <Filter>ヘッダー ファイル\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Skydome\Skydome.h">
       <Filter>ヘッダー ファイル\Skydome</Filter>
     </ClInclude>
     <ClInclude Include="math\MathFunction.h">
       <Filter>ヘッダー ファイル\math</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\BaseCharacter.h">
+      <Filter>ヘッダー ファイル\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Player.h">
+      <Filter>ヘッダー ファイル\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Enemy.h">
+      <Filter>ヘッダー ファイル\Character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
