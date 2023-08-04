@@ -24,9 +24,11 @@ void GameScene::Initialize() {
 	modelFighterBody_.reset(Model::CreateFromOBJ("Player_Body", true));
 	modelFighterL_arm_.reset(Model::CreateFromOBJ("Player_L_arm", true));
 	modelFighterR_arm_.reset(Model::CreateFromOBJ("Player_R_arm", true));
+	modelWeapon_.reset(Model::CreateFromOBJ("Weapon", true));
 	//自キャラモデルのリスト
 	std::vector<Model*> playerModels = {
-	    modelFighterBody_.get(), modelFighterL_arm_.get(), modelFighterR_arm_.get()};
+	    modelFighterBody_.get(), modelFighterL_arm_.get(), modelFighterR_arm_.get(),
+	    modelWeapon_.get()};
 	//自キャラの生成
 	player_ = std::make_unique<Player>();
 	//自キャラの初期化

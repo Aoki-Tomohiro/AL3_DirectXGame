@@ -1,12 +1,19 @@
 #pragma once
 #include "BaseCharacter.h"
 #include "Input.h"
+#include <optional>
 
 /// <summary>
 /// 自キャラ
 /// </summary>
 class Player : public BaseCharacter {
 public:
+	//振るまい
+	enum class Behavior {
+		kRoot,   // 通常状態
+		kAttack, // 攻撃中
+	};
+
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -24,6 +31,26 @@ public:
 	/// </summary>
 	/// <param name="viewProjection"></param>
 	void Draw(const ViewProjection& viewProjection) override;
+
+	/// <summary>
+	/// 通行行動初期化
+	/// </summary>
+	void BehaviorRootInitialize();
+
+	/// <summary>
+	/// 通常行動更新
+	/// </summary>
+	void BehaviorRootUpdate();
+
+	/// <summary>
+	/// 攻撃行動初期化
+	/// </summary>
+	void BehaviorAttackInitialize();
+
+	/// <summary>
+	/// 攻撃行動更新
+	/// </summary>
+	void BehaviorAttackUpdate();
 
 	/// <summary>
 	/// 浮遊ギミックの初期化
@@ -48,6 +75,7 @@ public:
 	WorldTransform worldTransformBody_;
 	WorldTransform worldTransformL_arm_;
 	WorldTransform worldTransformR_arm_;
+	WorldTransform worldTransformWeapon_;
 	//カメラのビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
 	//浮遊ギミックの媒介変数
@@ -56,4 +84,11 @@ public:
 	uint16_t cycle_ = 60;
 	//浮遊の振動<m>
 	float amplitude_ = 0.1f;
+	//振るまい
+	Behavior behavior_ = Behavior::kRoot;
+	//次の振るまいのリクエスト
+	std::optional<Behavior> behaviorRequest_ = std::nullopt;
+	//攻撃用のタイマー
+	uint16_t animationTimer_ = 0;
+	uint16_t animationCount_ = 0;
 };
