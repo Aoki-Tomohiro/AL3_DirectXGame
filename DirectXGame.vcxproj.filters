@@ -79,6 +79,12 @@
     <Filter Include="ソース ファイル\math">
       <UniqueIdentifier>{4c21a99e-f783-4367-bdcb-0ebd1d434719}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\GlobalVariables">
+      <UniqueIdentifier>{451bbcf4-5b4e-4477-8ec0-dff170a657e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GlobalVariables">
+      <UniqueIdentifier>{0f48ef1f-bed0-41da-a77d-2bd5237cfd3e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -119,6 +125,9 @@
     </ClCompile>
     <ClCompile Include="Character\Player.cpp">
       <Filter>ソース ファイル\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalVariables\GlobalVariables.cpp">
+      <Filter>ソース ファイル\GlobalVariables</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -226,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="Character\Enemy.h">
       <Filter>ヘッダー ファイル\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalVariables\GlobalVariables.h">
+      <Filter>ヘッダー ファイル\GlobalVariables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

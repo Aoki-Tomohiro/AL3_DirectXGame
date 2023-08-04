@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "math/MathFunction.h"
 #include "ImGuiManager.h"
+#include "GlobalVariables/GlobalVariables.h"
 #include <cassert>
 
 void Player::Initialize(const std::vector<Model*>& models) {
@@ -23,20 +24,25 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	worldTransformWeapon_.parent_ = &worldTransformL_arm_;
 	//浮遊ギミックの初期化
 	InitializeFloatingGimmick();
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "Player";
+	//グループを追加
+	globalVariables->CreateGroup(groupName);
+	globalVariables->SetValue(groupName, "TestInt", 90);
+	globalVariables->SetValue(groupName, "TestFloat", 90.0f);
+	globalVariables->SetValue(groupName, "TestVector3", Vector3{1.0f, 1.0f, 1.0f});
 }
 
 void Player::Update() { 
 	// ゲームパッドの状態を得る変数(XINPUT)
 	XINPUT_STATE joyState;
 
-	//ゲームパッド未接続なら何もせず抜ける
-	if (!Input::GetInstance()->GetJoystickState(0, joyState)) {
-		return;
-	}
-
-	//攻撃行動を予約
-	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
-		behaviorRequest_ = Behavior::kAttack;
+	// ゲームパッド未接続なら何もせず抜ける
+	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+		// 攻撃行動を予約
+		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
+			behaviorRequest_ = Behavior::kAttack;
+		}
 	}
 
 	//Behaviorの初期化
