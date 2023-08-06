@@ -24,6 +24,7 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	worldTransformWeapon_.parent_ = &worldTransformL_arm_;
 	//浮遊ギミックの初期化
 	InitializeFloatingGimmick();
+
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const char* groupName = "Player";
 	//グループを追加

@@ -1,12 +1,16 @@
 #pragma once
 #include "Vector3.h"
 #include <iostream>
+#include <fstream>
 #include <variant>
 #include <string>
 #include <map>
+#include <json.hpp>
 
 class GlobalVariables {
 public:
+	using json = nlohmann::json;
+
 	//項目
 	struct Item {
 		//項目の値
@@ -31,6 +35,12 @@ public:
 	void CreateGroup(const std::string& groupName);
 
 	/// <summary>
+	/// ファイルに書き出し
+	/// </summary>
+	/// <param name="groupName"></param>
+	void SaveFile(const std::string& groupName);
+
+	/// <summary>
 	/// 毎フレーム処理
 	/// </summary>
 	void Update();
@@ -41,6 +51,9 @@ public:
 	void SetValue(const std::string& groupName, const std::string& key, float value);
 	//値のセット(Vector3)
 	void SetValue(const std::string& groupName, const std::string& key, const Vector3& value);
+
+public:
+	const std::string kDirectoryPath = "Resources/GlobalVariables/";
 
 private:
 	GlobalVariables() = default;
