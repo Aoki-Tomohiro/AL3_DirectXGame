@@ -29,9 +29,10 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	const char* groupName = "Player";
 	//グループを追加
 	globalVariables->CreateGroup(groupName);
-	globalVariables->SetValue(groupName, "TestInt", 90);
-	globalVariables->SetValue(groupName, "TestFloat", 90.0f);
-	globalVariables->SetValue(groupName, "TestVector3", Vector3{1.0f, 1.0f, 1.0f});
+	globalVariables->AddItem(groupName, "ArmL Translation", worldTransformL_arm_.translation_);
+	globalVariables->AddItem(groupName, "ArmR Translation", worldTransformR_arm_.translation_);
+	globalVariables->AddItem(groupName, "floatingCycle", cycle_);
+	globalVariables->AddItem(groupName, "floatingAmplitude", amplitude_);
 }
 
 void Player::Update() { 
@@ -84,17 +85,9 @@ void Player::Update() {
 	worldTransformR_arm_.UpdateMatrix(); 
 	worldTransformWeapon_.UpdateMatrix();
 
+	//調整項目
+	ApplyGlobalVariables();
 	ImGui::Begin(" ");
-	ImGui::DragFloat3("Base Translation", &worldTransform_.translation_.x, 0.01f);
-	ImGui::DragFloat3("Base Rotation", &worldTransform_.rotation_.x, 0.01f);
-	ImGui::DragFloat3("Body Translation", &worldTransformBody_.translation_.x, 0.01f);
-	ImGui::DragFloat3("Body Rotation", &worldTransformBody_.rotation_.x, 0.01f);
-	ImGui::DragFloat3("ArmL Translation", &worldTransformL_arm_.translation_.x, 0.01f);
-	ImGui::DragFloat3("ArmL Rotation", &worldTransformL_arm_.rotation_.x, 0.01f);
-	ImGui::DragFloat3("ArmR Translation", &worldTransformR_arm_.translation_.x, 0.01f);
-	ImGui::DragFloat3("ArmR Rotation", &worldTransformR_arm_.rotation_.x, 0.01f);
-	ImGui::DragInt("cycle", reinterpret_cast<int*>(&cycle_), 1);
-	ImGui::DragFloat("amplitude", &amplitude_, 0.01f);
 	ImGui::Text("Lstick : move");
 	ImGui::Text("R1 : Attack");
 	ImGui::End();
@@ -213,4 +206,15 @@ void Player::UpdateFloatingGimmick() {
 	worldTransformBody_.translation_.y = std::sin(floatingParameter_) * amplitude_;
 	worldTransformL_arm_.rotation_.y = std::sin(floatingParameter_) * amplitude_;
 	worldTransformR_arm_.rotation_.y = -std::sin(floatingParameter_) * amplitude_;
+}
+
+void Player::ApplyGlobalVariables() {
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "Player";
+	worldTransformL_arm_.translation_ =
+	    globalVariables->GetVector3Value(groupName, "ArmL Translation");
+	worldTransformR_arm_.translation_ =
+	    globalVariables->GetVector3Value(groupName, "ArmR Translation");
+	cycle_ = globalVariables->GetIntValue(groupName, "floatingCycle");
+	amplitude_ = globalVariables->GetFloatValue(groupName, "floatingAmplitude");
 }

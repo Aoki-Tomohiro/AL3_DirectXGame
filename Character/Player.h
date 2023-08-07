@@ -63,6 +63,11 @@ public:
 	void UpdateFloatingGimmick();
 
 	/// <summary>
+	/// 調整項目の適用
+	/// </summary>
+	void ApplyGlobalVariables();
+
+	/// <summary>
 	/// ビュープロジェクションをセット
 	/// </summary>
 	/// <param name="viewProjection"></param>
@@ -81,7 +86,7 @@ public:
 	//浮遊ギミックの媒介変数
 	float floatingParameter_ = 0.0f;
 	//浮遊移動のサイクル<frame>
-	uint16_t cycle_ = 60;
+	int32_t cycle_ = 60;
 	//浮遊の振動<m>
 	float amplitude_ = 0.1f;
 	//振るまい
