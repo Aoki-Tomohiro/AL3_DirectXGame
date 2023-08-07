@@ -10,17 +10,8 @@
 class GlobalVariables {
 public:
 	using json = nlohmann::json;
-
-	//項目
-	struct Item {
-		//項目の値
-		std::variant<int32_t, float, Vector3> value;
-	};
-
-	//グループ
-	struct Group {
-		std::map<std::string, Item> items;
-	};
+	using Item = std::variant<int32_t, float, Vector3>;
+	using Group = std::map<std::string, Item>;
 
 	/// <summary>
 	/// シングルトンインスタンスの取得

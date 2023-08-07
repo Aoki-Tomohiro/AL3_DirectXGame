@@ -2,15 +2,15 @@
     "Player": {
         "ArmL Translation": [
             0.800000011920929,
-            1.0,
+            1.000000000000000,
             0.0
         ],
         "ArmR Translation": [
             -0.800000011920929,
-            1.0,
+            1.000000000000000,
             0.0
         ],
-        "floatingAmplitude": 0.10000000149011612,
+        "floatingAmplitude": 0.1000000000000000,
         "floatingCycle": 60
     }
 }
