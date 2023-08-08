@@ -15,8 +15,6 @@ enum class Phase
 class Enemy {
 public:
 	void Initialize(Model* model, uint32_t textureHandle);
-	void Approach();
-	void Leave();
 	void Update();
 	void Draw(ViewProjection viewProjection);
 	void ChangeState(IEnemyState* newState);
@@ -30,10 +28,6 @@ private:
 	Model* model_ = nullptr;
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
-	//フェーズ
-	Phase phase_ = Phase::Approach;
-	//メンバ関数ポインタのテーブル
-	static void(Enemy::*spFuncTable[])();
 	//statePattern
 	IEnemyState* state_;
 };
