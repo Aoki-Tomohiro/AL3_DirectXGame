@@ -33,8 +33,10 @@ private:
 	ViewProjection viewProjection_;
 	// スプライン曲線制御点(通過点)
 	std::vector<Vector3> controlPoints_;
+	Vector3 eye_;
+	Vector3 target_;
 	float eyet_ = 0.0f;
-	float targett_ = 0.2f;
-	/*uint32_t eyeSection = 0;
-	uint32_t targetSection = 0;*/
+	float targett_ = 0.1f;
+	uint32_t eyeSection_ = 0;
+	uint32_t targetSection_ = 0;
 };

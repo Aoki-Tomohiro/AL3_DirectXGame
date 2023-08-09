@@ -38,7 +38,7 @@ void GameScene::Initialize() {
 	// 自キャラとレールカメラの親子関係を結ぶ
 	player_->SetParent(&railCamera_->GetWorldTransform());
 	// 自キャラの初期化
-	Vector3 playerPositon = {0.0f, 0.0f, 0.0f};
+	Vector3 playerPositon = {0.0f, 0.0f, 30.0f};
 	player_->Initialize(model_, textureHandle_, playerPositon);
 	// デバッグカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
@@ -59,31 +59,24 @@ void GameScene::Initialize() {
 	// skydome
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(modelSkydome_);
-	controlPoints_ = {
-	    {0,  0,  0},
-        {10, 10, 0},
-        {10, 15, 0},
-        {20, 15, 0},
-        {20, 0,  0},
-        {30, 0,  0},
-	};
-	/*controlPoints_ = {
-	    {0,  0,  0},
-	    {0,  0,  0},
-        {10, 10, 0},
-        {10, 15, 0},
-        {20, 15, 0},
-        {20, 0,  0},
-        {30, 0,  0},
-        {30, 0,  0},
-	};*/
+	//PrimitiveDrawerのインスタンスを取得
 	PrimitiveDrawer::GetInstance()->SetViewProjection(&viewProjection_);
+	controlPoints_ = {
+	    {0,  0,  0  },
+        {10, 10, 10 },
+        {10, 15, 50 },
+        {20, 15, 80 },
+	    {20, 0,  120},
+        {30, 0,  160},
+	};
 }
 
 void GameScene::Update() {
 	player_->Update();
 	enemy_->Update();
 	skydome_->Update();
+	railCamera_->Update();
+
 	// CollisionManagerのリストをクリア
 	collisionManager_->ClearColliderList();
 	// CollisionManagerのリストを追加
@@ -103,16 +96,11 @@ void GameScene::Update() {
 	}
 	collisionManager_->CheckAllCollisions();
 
-	// デバッグカメラの処理
-	if (isDebugCameraActive_) {
-		debugCamera_->Update();
-		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
-		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
-		// ビュープロジェクション行列の転送
+	// レールカメラの処理
+	if (isDebugCameraActive_ == false) {
+		viewProjection_.matView = railCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
 		viewProjection_.TransferMatrix();
-	} else {
-		// ビュープロジェクション行列の更新と転送
-		viewProjection_.UpdateMatrix();
 	}
 
 #ifdef _DEBUG
@@ -126,12 +114,16 @@ void GameScene::Update() {
 		}
 	}
 #endif
-	railCamera_->Update();
-	// レールカメラの処理
-	if (isDebugCameraActive_ == false) {
-		/*railCamera_->Update();*/
-		viewProjection_.matView = railCamera_->GetViewProjection().matView;
-		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
+
+	// デバッグカメラの処理
+	if (isDebugCameraActive_) {
+		debugCamera_->Update();
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		// ビュープロジェクション行列の転送
+		viewProjection_.TransferMatrix();
+	} else {
+		// ビュープロジェクション行列の更新と転送
 		viewProjection_.TransferMatrix();
 	}
 }
@@ -165,27 +157,15 @@ void GameScene::Draw() {
 	player_->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
 	skydome_->Draw(viewProjection_);
-	// 線分で描画するようの頂点リスト
+
+	//線分で描画する用の頂点リスト
 	std::vector<Vector3> pointsDrawing;
-	// 線分の数
+	//線分の数
 	const size_t segmentCount = 100;
-	//// 線分の数+1個分の頂点座標を計算
-	//for (size_t i = 0; i < segmentCount + 1; i++) {
-	//	float t = 4.9f / segmentCount * i;
-	//	Vector3 pos = Catmull_Rom(controlPoints_, t);
-	//	// 描画用頂点リストに追加
-	//	pointsDrawing.push_back(pos);	
-	//}
-
-	//for (float t = 0.0f; t < (float)controlPoints_.size() - 3; t += 0.01f) {
-	//	Vector3 pos = Catmull_Rom(controlPoints_, t);
-	//	// 描画用頂点リストに追加
-	//	pointsDrawing.push_back(pos);
-	//}
-
 	for (size_t i = 0; i < segmentCount + 1; i++) {
 		float t = 1.0f / segmentCount * i;
-		Vector3 pos = Catmull_Rom(controlPoints_[0],controlPoints_[0],controlPoints_[1],controlPoints_[2], t);
+		Vector3 pos = Catmull_Rom(
+		    controlPoints_[0], controlPoints_[0], controlPoints_[1], controlPoints_[2], t);
 		// 描画用頂点リストに追加
 		pointsDrawing.push_back(pos);
 	}
