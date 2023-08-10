@@ -34,6 +34,12 @@ float Dot(const Vector3& v1, const Vector3& v2) {
 	return result;
 }
 
+float Length(const Vector2& v) { 
+	float result{};
+	result = sqrtf(v.x * v.x + v.y * v.y);
+	return result;
+}
+
 // 長さ
 float Length(const Vector3& v) {
 	float result;

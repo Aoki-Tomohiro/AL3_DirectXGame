@@ -3,6 +3,7 @@
 #include "ImGuiManager.h"
 #include "MathFunction.h"
 #include "collider/CollisionConfig.h"
+#include "enemy/Enemy.h"
 
 Player::~Player() { 
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
@@ -134,6 +135,29 @@ void Player::Update(const ViewProjection& viewProjection) {
 	//スプライトのレティクルに座標設定
 	sprite2DReticle_->SetPosition(Vector2(positionReticle.x, positionReticle.y));
 
+
+	// 敵のワールドポジションを取得
+	const uint32_t kReticleRadius = 96;
+	for (Enemy* enemy : enemys_) {
+		// 敵のワールド座標を取得
+		Vector3 pos = enemy->GetWorldPosition();
+		// 敵のワールド座標をスクリーン座標に変換
+		pos = Transform(pos, matViewProjectionViewport);
+		// 当たり判定
+		float distance = Length(Subtract({positionReticle.x, positionReticle.y}, {pos.x, pos.y}));
+		if (distance <= 1 + kReticleRadius) {
+			//レティクルの座標を変更
+			sprite2DReticle_->SetPosition(Vector2(pos.x, pos.y));
+			//レティクルの色を変更
+			sprite2DReticle_->SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+			//3Dレティクルのワールド座標を敵の座標に変更
+			Set3DReticleWorldPosition(enemy->GetWorldPosition());
+			//行列更新
+			worldTransform3DReticle_.TransferMatrix();
+		}
+	}
+
+
 	//キャラクターの座標を画面表示する処理
 	ImGui::Begin("PlayerPosition");
 	ImGui::SliderFloat3("Player", *inputFloat3, -34, 34);
@@ -183,6 +207,12 @@ Vector3 Player::GetWorldPosition() {
 	worldPos.z = worldTransform_.matWorld_.m[3][2];
 	return worldPos;
 };
+
+void Player::Set3DReticleWorldPosition(const Vector3& worldPos) {
+	worldTransform3DReticle_.matWorld_.m[3][0] = worldPos.x; 
+	worldTransform3DReticle_.matWorld_.m[3][1] = worldPos.y;
+	worldTransform3DReticle_.matWorld_.m[3][2] = worldPos.z;
+}
 
 Vector3 Player::Get3DReticleWorldPosition() {
 	// ワールド座標を入れる変数

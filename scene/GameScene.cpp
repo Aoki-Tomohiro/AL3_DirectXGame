@@ -69,11 +69,11 @@ void GameScene::Initialize() {
 	// skydome
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(modelSkydome_);
+	//自キャラに敵キャラを渡す
+	player_->SetEnemy(enemys_);
 }
 
 void GameScene::Update() {
-	//自機更新
-	player_->Update(viewProjection_);
 	// 敵生成
 	GameScene::UpdateEnemyPopCommands();
 	//デスフラグが立った敵を削除
@@ -100,6 +100,11 @@ void GameScene::Update() {
 	for (std::unique_ptr<EnemyBullet>& bullet : enemyBullets_) {
 		bullet->Update();
 	}
+	// 自キャラに敵キャラを渡す
+	player_->SetEnemy(enemys_);
+	// 自機更新
+	player_->Update(viewProjection_);
+	//天球更新
 	skydome_->Update();
 	// CollisionManagerのリストをクリア
 	collisionManager_->ClearColliderList();

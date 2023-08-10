@@ -7,6 +7,8 @@
 #include"Sprite.h"
 #pragma once
 
+class Enemy;
+
 class Player : public Collider{
 public:
 	~Player();
@@ -18,8 +20,10 @@ public:
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() const { return bullets_; };
 	void SetParent(const WorldTransform* parent);
 	const WorldTransform& GetWorldTransform() { return worldTransform_; };
+	void Set3DReticleWorldPosition(const Vector3& worldPos);
 	Vector3 Get3DReticleWorldPosition();
 	void DrawUI();
+	void SetEnemy(const std::list<Enemy*> enemys) { enemys_ = enemys; };
 
 private:
 	void Attack();
@@ -41,4 +45,7 @@ private:
 	WorldTransform worldTransform3DReticle_;
 	//2Dレティクル用スプライト
 	Sprite* sprite2DReticle_ = nullptr;
+	//敵キャラ
+	std::list<Enemy*> enemys_;
+	std::list<Vector3> enemyPos_;
 };
