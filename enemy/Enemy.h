@@ -3,8 +3,7 @@
 #include "Model.h"
 #include <stdio.h>
 
-enum class Phase
-{
+enum class Phase{
 	Approach,//接近する
 	Leave,//離脱する
 };
