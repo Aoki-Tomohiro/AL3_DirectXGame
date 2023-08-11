@@ -13,26 +13,28 @@ Player::~Player() {
 }
 
 void Player::Initialize(
-    Model* model, uint32_t textureHandle, Vector3& playerPosition, uint32_t reticleTextureHandle) {
+    Model* model, uint32_t textureHandle, Vector3& playerPosition, uint32_t reticleTextureHandle,
+    uint32_t lockonTextureHandle) {
 	assert(model);
 	model_ = model;
 	textureHandle_ = textureHandle;
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = playerPosition;
-	//シングルインスタンスを取得する
+	// シングルインスタンスを取得する
 	input_ = Input::GetInstance();
-	//衝突属性を設定
+	// 衝突属性を設定
 	SetCollisionAttribute(kCollisionAttributePlayer);
-	//衝突対象を自分の属性以外に設定
+	// 衝突対象を自分の属性以外に設定
 	SetCollisionMask(~kCollisionAttributePlayer);
 	SetRadius(1.0f);
-	//3Dレティクルのワールドトランスフォーム初期化
+	// 3Dレティクルのワールドトランスフォーム初期化
 	worldTransform3DReticle_.Initialize();
-	//レティクル用テクスチャ取得
-	uint32_t textureReticle = reticleTextureHandle;
-	//スプライト生成
-	sprite2DReticle_ =
-	    Sprite::Create(textureReticle, {1280.0f/2, 720.0f/2}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});
+	// レティクル用テクスチャ取得
+	textureReticle_ = reticleTextureHandle;
+	lockonTextureHandle_ = lockonTextureHandle;
+	// スプライト生成
+	sprite2DReticle_ = Sprite::Create(
+	    textureReticle_, {1280.0f / 2, 720.0f / 2}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});
 }
 
 void Player::OnCollision(){};
@@ -134,9 +136,15 @@ void Player::Update(const ViewProjection& viewProjection) {
 	positionReticle = Transform(positionReticle, matViewProjectionViewport);
 	//スプライトのレティクルに座標設定
 	sprite2DReticle_->SetPosition(Vector2(positionReticle.x, positionReticle.y));
+	//通常のレティクル画像に変更
+	sprite2DReticle_->SetTextureHandle(textureReticle_);
 
+	//ロックオン
+	Matrix4x4 worldMatrix = MakeAffineMatrix(
+	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
+	Vector3 worldPos = {worldMatrix.m[3][0], worldMatrix.m[3][1], worldMatrix.m[3][2]};
+	worldPos = Transform(worldPos, matViewProjectionViewport);
 
-	// 敵のワールドポジションを取得
 	const uint32_t kReticleRadius = 96;
 	for (Enemy* enemy : enemys_) {
 		// 敵のワールド座標を取得
@@ -146,17 +154,16 @@ void Player::Update(const ViewProjection& viewProjection) {
 		// 当たり判定
 		float distance = Length(Subtract({positionReticle.x, positionReticle.y}, {pos.x, pos.y}));
 		if (distance <= 1 + kReticleRadius) {
-			//レティクルの座標を変更
+			// レティクルの座標を変更
 			sprite2DReticle_->SetPosition(Vector2(pos.x, pos.y));
-			//レティクルの色を変更
-			sprite2DReticle_->SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
-			//3Dレティクルのワールド座標を敵の座標に変更
+			// レティクルの画像を変更
+			sprite2DReticle_->SetTextureHandle(lockonTextureHandle_);
+			// 3Dレティクルのワールド座標を敵の座標に変更
 			Set3DReticleWorldPosition(enemy->GetWorldPosition());
-			//行列更新
+			// 行列更新
 			worldTransform3DReticle_.TransferMatrix();
 		}
 	}
-
 
 	//キャラクターの座標を画面表示する処理
 	ImGui::Begin("PlayerPosition");

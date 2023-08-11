@@ -12,7 +12,9 @@ class Enemy;
 class Player : public Collider{
 public:
 	~Player();
-	void Initialize(Model* model, uint32_t textureHandle, Vector3& playerPosition,uint32_t reticleTextureHandle);
+	void Initialize(
+	    Model* model, uint32_t textureHandle, Vector3& playerPosition,
+	    uint32_t reticleTextureHandle, uint32_t LockonTextureHandle);
 	void Update(const ViewProjection& viewProjection);
 	void OnCollision() override;
 	Vector3 GetWorldPosition() override;
@@ -33,6 +35,10 @@ private:
 	Model* model_ = nullptr;
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
+	//レティクルのテクスチャハンドル
+	uint32_t textureReticle_ = 0u;
+	//ロックオン時のレティクルのテクスチャハンドル
+	uint32_t lockonTextureHandle_ = 0u;
 	//キーボード入力
 	Input* input_ = nullptr;
 	//ImGuiで値を入力する変数

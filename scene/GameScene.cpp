@@ -29,6 +29,7 @@ void GameScene::Initialize() {
 	// ファイルを指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("sample.png");
 	textureReticle_ = TextureManager::Load("reticle.png");
+	lockonTexture_ = TextureManager::Load("lockonReticle.png");
 	// 3Dモデルの生成
 	model_ = Model::Create();
 	// ビュープロジェクションの初期化
@@ -40,7 +41,7 @@ void GameScene::Initialize() {
 	player_ = new Player();
 	// 自キャラの初期化
 	Vector3 playerPositon = {0.0f, 0.0f, 30.0f};
-	player_->Initialize(model_, textureHandle_, playerPositon, textureReticle_);
+	player_->Initialize(model_, textureHandle_, playerPositon, textureReticle_, lockonTexture_);
 	// 自キャラとレールカメラの親子関係を結ぶ
 	player_->SetParent(&railCamera_->GetWorldTransform());
 	// デバッグカメラの生成

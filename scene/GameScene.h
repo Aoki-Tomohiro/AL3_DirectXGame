@@ -103,6 +103,8 @@ private: // メンバ変数
 	uint32_t waitTimer;
 	//レティクル用テクスチャ
 	uint32_t textureReticle_ = 0;
+	//ロックオン時のレティクル用テクスチャ
+	uint32_t lockonTexture_ = 0;
 
 	/// <summary>
 	/// ゲームシーン用
