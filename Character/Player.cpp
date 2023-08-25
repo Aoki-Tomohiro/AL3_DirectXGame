@@ -115,26 +115,43 @@ void Player::BehaviorRootUpdate() {
 
 	// ゲームパッド状態取得
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		// 速さ
-		const float speed = 0.3f;
+
+		//しきい値
+		const float threshold = 0.7f;
+
+		//移動フラグ
+		bool isMoving = false;
 
 		// 移動量
 		Vector3 move = {
-		    (float)joyState.Gamepad.sThumbLX / SHRT_MAX, 0.0f,
-		    (float)joyState.Gamepad.sThumbLY / SHRT_MAX};
+		    (float)joyState.Gamepad.sThumbLX / SHRT_MAX,
+			0.0f,
+		    (float)joyState.Gamepad.sThumbLY / SHRT_MAX
+		};
 
-		// 移動量に速さを反映
-		move = Multiply(Normalize(move), speed);
+		//スティックの押し込みが遊び範囲を超えていたら移動フラグをtrueにする
+		if (Length(move) > threshold) {
+			isMoving = true;
+		}
 
-		// 移動ベクトルをカメラの角度だけ回転する
-		Matrix4x4 rotateMatrix = MakeRotateYMatrix(viewProjection_->rotation_.y);
-		move = TransformNormal(move, rotateMatrix);
+		//移動フラグがtrueの時に移動する
+		if (isMoving) {
+			// 速さ
+			const float speed = 0.3f;
 
-		// 移動方向に見た目を合わせる
-		worldTransform_.rotation_.y = std::atan2(move.x, move.z);
+			// 移動量に速さを反映
+			move = Multiply(Normalize(move), speed);
 
-		// 移動
-		worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+			// 移動ベクトルをカメラの角度だけ回転する
+			Matrix4x4 rotateMatrix = MakeRotateYMatrix(viewProjection_->rotation_.y);
+			move = TransformNormal(move, rotateMatrix);
+
+			// 移動方向に見た目を合わせる
+			worldTransform_.rotation_.y = std::atan2(move.x, move.z);
+
+			// 移動
+			worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+		}
 	}
 
 	// 浮遊ギミックの更新

@@ -40,6 +40,7 @@ Matrix4x4 MakeOrthographicMatrix(
 Matrix4x4 MakeViewportMatrix(
     float left, float top, float width, float height, float minDepth, float maxDepth);
 // 線形補間
-Vector3 Leap(const Vector3& v1, const Vector3& v2, float t);
+float Lerp(const float& v1, const float& v2, float t);
+Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t);
 // 球面線形補間
 Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t);

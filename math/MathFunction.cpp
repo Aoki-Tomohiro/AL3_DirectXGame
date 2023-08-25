@@ -404,7 +404,13 @@ Matrix4x4 MakeViewportMatrix(
 }
 
 // 線形補間
-Vector3 Leap(const Vector3& v1, const Vector3& v2, float t) {
+float Lerp(const float& v1, const float& v2, float t) {
+	float result{};
+	result = v1 + t * (v2 - v1);
+	return result;
+}
+
+Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t) {
 	Vector3 result{};
 	result.x = v1.x + t * (v2.x - v1.x);
 	result.y = v1.y + t * (v2.y - v1.y);

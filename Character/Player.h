@@ -83,6 +83,8 @@ public:
 	WorldTransform worldTransformWeapon_;
 	//カメラのビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
+	//目標角度
+	float targetAngle_ = 0.0f;
 	//浮遊ギミックの媒介変数
 	float floatingParameter_ = 0.0f;
 	//浮遊移動のサイクル<frame>
