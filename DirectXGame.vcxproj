@@ -113,13 +113,25 @@
     <ClCompile Include="Character\BaseCharacter.cpp" />
     <ClCompile Include="Character\Enemy.cpp" />
     <ClCompile Include="Character\Player.cpp" />
+    <ClCompile Include="Character\PlayerBullet.cpp" />
+    <ClCompile Include="CollisionManager\CollisionManager.cpp" />
     <ClCompile Include="FollowCamera\FollowCamera.cpp" />
     <ClCompile Include="GlobalVariables\GlobalVariables.cpp" />
     <ClCompile Include="Ground\Ground.cpp" />
+    <ClCompile Include="Item\Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="math\MathFunction.cpp" />
+    <ClCompile Include="Particle\DestructionParticle.cpp" />
+    <ClCompile Include="Particle\HitParticle.cpp" />
+    <ClCompile Include="Particle\ParticleEmitter.cpp" />
+    <ClCompile Include="scene\GameManager.cpp" />
+    <ClCompile Include="scene\GameResult.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
+    <ClCompile Include="scene\GameTitle.cpp" />
+    <ClCompile Include="Score\Score.cpp" />
     <ClCompile Include="Skydome\Skydome.cpp" />
+    <ClCompile Include="TimeLimit\TimeLimit.cpp" />
+    <ClCompile Include="Wall\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\ImGuiManager.h" />
@@ -147,17 +159,31 @@
     <ClInclude Include="Character\BaseCharacter.h" />
     <ClInclude Include="Character\Enemy.h" />
     <ClInclude Include="Character\Player.h" />
+    <ClInclude Include="Character\PlayerBullet.h" />
+    <ClInclude Include="CollisionManager\Collider.h" />
+    <ClInclude Include="CollisionManager\CollisionConfig.h" />
+    <ClInclude Include="CollisionManager\CollisionManager.h" />
     <ClInclude Include="FollowCamera\FollowCamera.h" />
     <ClInclude Include="GlobalVariables\GlobalVariables.h" />
     <ClInclude Include="Ground\Ground.h" />
     <ClInclude Include="input\Input.h" />
+    <ClInclude Include="Item\Item.h" />
     <ClInclude Include="math\MathFunction.h" />
     <ClInclude Include="math\Matrix4x4.h" />
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
+    <ClInclude Include="Particle\DestructionParticle.h" />
+    <ClInclude Include="Particle\HitParticle.h" />
+    <ClInclude Include="Particle\ParticleEmitter.h" />
+    <ClInclude Include="scene\GameManager.h" />
+    <ClInclude Include="scene\GameResult.h" />
     <ClInclude Include="scene\GameScene.h" />
+    <ClInclude Include="scene\GameTitle.h" />
+    <ClInclude Include="Score\Score.h" />
     <ClInclude Include="Skydome\Skydome.h" />
+    <ClInclude Include="TimeLimit\TimeLimit.h" />
+    <ClInclude Include="Wall\Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\TerrainPS.hlsl">

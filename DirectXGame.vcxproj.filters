@@ -31,9 +31,6 @@
     <Filter Include="ヘッダー ファイル\base">
       <UniqueIdentifier>{74394124-7d35-4440-8404-7b478262b455}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\scene">
-      <UniqueIdentifier>{e2d0b4b8-24a1-4854-8e5b-bb6ed09f1add}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\scene">
       <UniqueIdentifier>{8f83101b-6ce3-4c73-a4d3-5052382dedab}</UniqueIdentifier>
     </Filter>
@@ -48,9 +45,6 @@
     </Filter>
     <Filter Include="ソース ファイル\3d">
       <UniqueIdentifier>{7b73e3f4-2cfc-4084-8e42-d08e8e0e1556}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\FollowCamera">
-      <UniqueIdentifier>{8fbb7c15-a85c-495a-819e-ec0ba6db3d8e}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Ground">
       <UniqueIdentifier>{8b3fca9e-8b6d-4505-a8fa-a45e2ffc75a9}</UniqueIdentifier>
@@ -84,6 +78,48 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\GlobalVariables">
       <UniqueIdentifier>{0f48ef1f-bed0-41da-a77d-2bd5237cfd3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\FollowCamera">
+      <UniqueIdentifier>{8fbb7c15-a85c-495a-819e-ec0ba6db3d8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\CollisionManager">
+      <UniqueIdentifier>{de0dc616-ebe4-450c-9380-684302d3694d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\CollisionManager">
+      <UniqueIdentifier>{c2331590-2b48-40bc-9033-211245bd3f44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Particle">
+      <UniqueIdentifier>{f02c510e-c86d-48dd-a8fc-a11c36167c3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Particle">
+      <UniqueIdentifier>{6e327d52-31b5-4fce-a03b-03418bef11bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Score">
+      <UniqueIdentifier>{6bb19416-0e93-49f2-b5df-7eed35f2ddce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Score">
+      <UniqueIdentifier>{f5c5a0c0-6e9c-43fa-85ea-c190f261c08d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\scene">
+      <UniqueIdentifier>{e2d0b4b8-24a1-4854-8e5b-bb6ed09f1add}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Item">
+      <UniqueIdentifier>{d2ef7a7c-4d7b-4b55-9b10-2b8889af1a05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Item">
+      <UniqueIdentifier>{a4fc79da-5bd0-47e5-9f63-6269375a9390}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\TimeLimit">
+      <UniqueIdentifier>{81444146-91e7-4326-88f8-f755eabc7108}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\TimeLimit">
+      <UniqueIdentifier>{43c628c3-a228-4bf9-9fdd-70d15e9a81a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Wall">
+      <UniqueIdentifier>{069977cb-5576-450e-8d16-ccf8fa9bfa32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Wall">
+      <UniqueIdentifier>{a12b1e3e-1af2-468a-9eb1-c7b6cf3fb36b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +164,42 @@
     </ClCompile>
     <ClCompile Include="GlobalVariables\GlobalVariables.cpp">
       <Filter>ソース ファイル\GlobalVariables</Filter>
+    </ClCompile>
+    <ClCompile Include="Character\PlayerBullet.cpp">
+      <Filter>ソース ファイル\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager\CollisionManager.cpp">
+      <Filter>ソース ファイル\CollisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle\DestructionParticle.cpp">
+      <Filter>ソース ファイル\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle\ParticleEmitter.cpp">
+      <Filter>ソース ファイル\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle\HitParticle.cpp">
+      <Filter>ソース ファイル\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Score\Score.cpp">
+      <Filter>ソース ファイル\Score</Filter>
+    </ClCompile>
+    <ClCompile Include="Item\Item.cpp">
+      <Filter>ソース ファイル\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeLimit\TimeLimit.cpp">
+      <Filter>ソース ファイル\TimeLimit</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\GameTitle.cpp">
+      <Filter>ソース ファイル\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\GameResult.cpp">
+      <Filter>ソース ファイル\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall\Wall.cpp">
+      <Filter>ソース ファイル\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\GameManager.cpp">
+      <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -238,6 +310,48 @@
     </ClInclude>
     <ClInclude Include="GlobalVariables\GlobalVariables.h">
       <Filter>ヘッダー ファイル\GlobalVariables</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\PlayerBullet.h">
+      <Filter>ヘッダー ファイル\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager\Collider.h">
+      <Filter>ヘッダー ファイル\CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager\CollisionConfig.h">
+      <Filter>ヘッダー ファイル\CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager\CollisionManager.h">
+      <Filter>ヘッダー ファイル\CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle\DestructionParticle.h">
+      <Filter>ヘッダー ファイル\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle\ParticleEmitter.h">
+      <Filter>ヘッダー ファイル\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle\HitParticle.h">
+      <Filter>ヘッダー ファイル\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Score\Score.h">
+      <Filter>ヘッダー ファイル\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="Item\Item.h">
+      <Filter>ヘッダー ファイル\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeLimit\TimeLimit.h">
+      <Filter>ヘッダー ファイル\TimeLimit</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\GameTitle.h">
+      <Filter>ヘッダー ファイル\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\GameResult.h">
+      <Filter>ヘッダー ファイル\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall\Wall.h">
+      <Filter>ヘッダー ファイル\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\GameManager.h">
+      <Filter>ヘッダー ファイル\scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

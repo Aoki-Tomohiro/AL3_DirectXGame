@@ -1,0 +1,10 @@
+{
+    "FollowCamera": {
+        "cameraRotationX": 0.20000000298023224,
+        "offset": [
+            0.0,
+            2.0,
+            -20.0
+        ]
+    }
+}

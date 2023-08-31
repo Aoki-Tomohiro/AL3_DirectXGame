@@ -30,9 +30,21 @@ public:
 	/// <returns></returns>
 	const ViewProjection& GetViewProjection() { return viewProjection_; };
 
+	/// <summary>
+	/// 調整項目の適用
+	/// </summary>
+	void ApplyGlobalVariables();
+
+	/// <summary>
+	/// リセット
+	/// </summary>
+	void Reset();
+
 private:
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
 	//追従対象
 	const WorldTransform* target_ = nullptr;
+	//オフセット
+	Vector3 offset_{0.0f, 2.0f, -20.0f};
 };

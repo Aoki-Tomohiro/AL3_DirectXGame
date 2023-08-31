@@ -1,17 +1,26 @@
 #include "FollowCamera.h"
 #include "MathFunction.h"
 #include "ImGuiManager.h"
+#include "GlobalVariables/GlobalVariables.h"
 
 void FollowCamera::Initialize(){
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
+	viewProjection_.rotation_.x = 0.2f;
+
+	// グローバル変数の追加
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "FollowCamera";
+	// グループを追加
+	globalVariables->CreateGroup(groupName);
+	globalVariables->AddItem(groupName, "offset", offset_);
 };
 
 void FollowCamera::Update(){
 	//追従対象がいれば
 	if (target_) {
 		//追従対象からカメラまでのオフセット(0度の時の値)
-		Vector3 offset = {0.0f, 2.0f, -10.0f};
+		Vector3 offset = offset_;
 
 		//カメラの角度から回転行列を計算する
 		Matrix4x4 rotateXMatrix = MakeRotateXMatrix(viewProjection_.rotation_.x);
@@ -28,7 +37,7 @@ void FollowCamera::Update(){
 	// ゲームパッドの状態を得る変数(XINPUT)
 	XINPUT_STATE joyState;
 
-	// ゲームパッド状態取得
+	//Y軸回転
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		//回転の速さ
 		const float kRotSpeed = 0.06f;
@@ -36,6 +45,7 @@ void FollowCamera::Update(){
 		viewProjection_.rotation_.y += (float)joyState.Gamepad.sThumbRX / SHRT_MAX * kRotSpeed;
 	}
 
+	//X軸回転
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		// 回転の速さ
 		const float kRotSpeed = 0.06f;
@@ -43,23 +53,28 @@ void FollowCamera::Update(){
 		viewProjection_.rotation_.x -= (float)joyState.Gamepad.sThumbRY / SHRT_MAX * kRotSpeed;
 	}
 
+	//カメラの回転上限
+	if (viewProjection_.rotation_.x < 0.0f) {
+		viewProjection_.rotation_.x = 0.0f;
+	}
+	if (viewProjection_.rotation_.x > 0.8f) {
+		viewProjection_.rotation_.x = 0.8f;
+	}
+
 	//ビュー行列の更新
 	viewProjection_.UpdateViewMatrix();
 	viewProjection_.TransferMatrix();
 
-	ImGui::Begin(" ");
-	ImGui::Text("Rstick : camera");
-	ImGui::Text(
-	    "%f,%f,%f,%f", viewProjection_.matView.m[0][0], viewProjection_.matView.m[0][1],
-	    viewProjection_.matView.m[0][2], viewProjection_.matView.m[0][3]);
-	ImGui::Text(
-	    "%f,%f,%f,%f", viewProjection_.matView.m[1][0], viewProjection_.matView.m[1][1],
-	    viewProjection_.matView.m[1][2], viewProjection_.matView.m[1][3]);
-	ImGui::Text(
-	    "%f,%f,%f,%f", viewProjection_.matView.m[2][0], viewProjection_.matView.m[2][1],
-	    viewProjection_.matView.m[2][2], viewProjection_.matView.m[2][3]);
-	ImGui::Text(
-	    "%f,%f,%f,%f", viewProjection_.matView.m[3][0], viewProjection_.matView.m[3][1],
-	    viewProjection_.matView.m[3][2], viewProjection_.matView.m[3][3]);
-	ImGui::End();
+	FollowCamera::ApplyGlobalVariables();
 };
+
+void FollowCamera::ApplyGlobalVariables() {
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "FollowCamera";
+	offset_ = globalVariables->GetVector3Value(groupName, "offset");
+}
+
+void FollowCamera::Reset() {
+	viewProjection_.translation_ = {0.0f, 0.0f, -50.0f};
+	viewProjection_.rotation_ = {0.2f, 0.0f, 0.0f};
+}

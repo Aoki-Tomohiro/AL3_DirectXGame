@@ -7,6 +7,8 @@
 #include "TextureManager.h"
 #include "WinApp.h"
 #include "GlobalVariables/GlobalVariables.h"
+#include "GameTitle.h"
+#include "GameResult.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -18,6 +20,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	AxisIndicator* axisIndicator = nullptr;
 	PrimitiveDrawer* primitiveDrawer = nullptr;
 	GameScene* gameScene = nullptr;
+	GameTitle* gameTitle = nullptr;
+	GameResult* gameResult = nullptr;
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
@@ -62,8 +66,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	GlobalVariables::GetInstance()->LoadFiles();
 
 	// ゲームシーンの初期化
+	int32_t currentScene = 0;
 	gameScene = new GameScene();
 	gameScene->Initialize();
+	gameTitle = new GameTitle();
+	gameTitle->Initialize();
+	gameResult = new GameResult();
+	gameResult->Initialize();
 
 	// メインループ
 	while (true) {
@@ -77,9 +86,34 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 入力関連の毎フレーム処理
 		input->Update();
 		//グローバル変数の更新
-		GlobalVariables::GetInstance()->Update();
+		//GlobalVariables::GetInstance()->Update();
 		// ゲームシーンの毎フレーム処理
-		gameScene->Update();
+		switch (currentScene) { 
+		case 0:
+			gameTitle->Update();
+			if (gameTitle->GetChangeFlag()) {
+				currentScene = gameTitle->GetNextScene();
+				gameTitle->Reset();
+			}
+			break;
+		case 1:
+			gameScene->Update();
+			if (gameScene->GetChangeFlag()) {
+				currentScene = gameScene->GetNextScene();
+				gameScene->Reset();
+			}
+			break;
+		case 2:
+			gameResult->Update();
+			if (gameResult->GetChangeFlag()) {
+				currentScene = gameResult->GetNextScene();
+				gameResult->Reset();
+			}
+			break;
+		}
+		//gameScene->Update();
+		//gameTitle->Update();
+		//gameResult->Update();
 		// 軸表示の更新
 		axisIndicator->Update();
 		// ImGui受付終了
@@ -88,7 +122,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 描画開始
 		dxCommon->PreDraw();
 		// ゲームシーンの描画
-		gameScene->Draw();
+		switch (currentScene) {
+		case 0:
+			gameTitle->Draw();
+			break;
+		case 1:
+			gameScene->Draw();
+			break;
+		case 2:
+			gameResult->Draw();
+			break;
+		}
+		//gameScene->Draw();
+		//gameTitle->Draw();
+		//gameResult->Draw();
 		// 軸表示の描画
 		axisIndicator->Draw();
 		// プリミティブ描画のリセット
@@ -101,6 +148,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// 各種解放
 	SafeDelete(gameScene);
+	SafeDelete(gameTitle);
+	SafeDelete(gameResult);
 	audio->Finalize();
 	// ImGui解放
 	imguiManager->Finalize();
