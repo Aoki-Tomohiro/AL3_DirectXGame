@@ -17,27 +17,39 @@ void Player::Update() {
 
 	// ゲームパッド状態取得
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		// 速さ
-		const float speed = 0.3f;
+		//しきい値
+		const float threshold = 0.8f;
+		bool isMoving = false;
 
 		// 移動量
 		Vector3 move = {
 		    (float)joyState.Gamepad.sThumbLX / SHRT_MAX, 0.0f,
 		    (float)joyState.Gamepad.sThumbLY / SHRT_MAX};
+		if (Length(move) > threshold) {
+			isMoving = true;
+		}
 
-		// 移動量に速さを反映
-		move = Multiply(Normalize(move), speed);
+		if (isMoving) {
+			// 速さ
+			const float speed = 0.3f;
 
-		//移動ベクトルをカメラの角度だけ回転する
-		Matrix4x4 rotateMatrix = MakeRotateYMatrix(viewProjection_->rotation_.y);
-		move = TransformNormal(move, rotateMatrix);
+			// 移動量に速さを反映
+			move = Multiply(Normalize(move), speed);
 
-		// 移動方向に見た目を合わせる
-		worldTransform_.rotation_.y = std::atan2(move.x, move.z);
+			// 移動ベクトルをカメラの角度だけ回転する
+			Matrix4x4 rotateMatrix = MakeRotateYMatrix(viewProjection_->rotation_.y);
+			move = TransformNormal(move, rotateMatrix);
 
-		// 移動
-		worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+			// 移動
+			worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+			
+			//目標角度の算出
+			targetTheta = std::atan2(move.x, move.z);
+		}
 	}
+
+	// 移動方向に見た目を合わせる
+	worldTransform_.rotation_.y = LerpShortAngle(worldTransform_.rotation_.y, targetTheta, 0.1f);
 
 	//行列の更新
 	worldTransform_.UpdateMatrix(); 

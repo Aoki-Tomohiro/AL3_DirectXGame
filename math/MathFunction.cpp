@@ -1,4 +1,5 @@
 #include "MathFunction.h"
+#include <math.h>
 
 // 足し算
 Vector3 Add(const Vector3& v1, const Vector3& v2) {
@@ -404,6 +405,12 @@ Matrix4x4 MakeViewportMatrix(
 }
 
 // 線形補間
+float Lerp(const float& v1, const float& v2, float t) { 
+	float result{};
+	result = v1 + t * (v2 - v1);
+	return result;
+}
+
 Vector3 Leap(const Vector3& v1, const Vector3& v2, float t) {
 	Vector3 result{};
 	result.x = v1.x + t * (v2.x - v1.x);
@@ -423,4 +430,22 @@ Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t) {
 		result.z = (std::sin(theta * (1 - t)) * v1.z + std::sin(theta * t) * v2.z) / sinTheta;
 	}
 	return Normalize(result);
+}
+
+float LerpShortAngle(float a, float b, float t) { 
+	//角度差分を求める
+	float diff = b - a;
+	//角度を[-2PI,+2PI]に補正する
+	float PI = 3.14159265359f;
+	float PI2 = 2.0f * 3.14159265359f;
+	float theta = std::fmod(diff, PI2);
+	//
+	if (theta >= PI) {
+		theta -= PI2;
+	}
+	if (theta <= -PI) {
+		theta += PI2;
+	}
+
+	return a + theta * t;
 }

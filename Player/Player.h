@@ -47,4 +47,6 @@ public:
 	Model* model_ = nullptr;
 	//カメラのビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
+	//目標角度
+	float targetTheta{};
 };
